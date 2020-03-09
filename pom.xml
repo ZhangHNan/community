@@ -41,6 +41,14 @@
             <artifactId>okhttp</artifactId>
             <version>3.14.1</version>
         </dependency>
+
+        <!--fastjson：用于转换json格式-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.57</version>
+        </dependency>
+
     </dependencies>
 
     <build>
