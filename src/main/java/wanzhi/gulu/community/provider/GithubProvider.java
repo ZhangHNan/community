@@ -11,6 +11,7 @@ import java.io.IOException;
 @Component
 public class GithubProvider {
 
+    //以post方式发送请求并接收数据
     public String getAccessToken(AccessTokenDTO accessTokenDTO) {
         MediaType mediaType = MediaType.get("application/json; charset=utf-8");
 
