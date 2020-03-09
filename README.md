@@ -1,6 +1,7 @@
 ## 码匠社区
 
 ## 资料
+[浏览器中这个项目](https://localhost:8887/)    
 [Github中的这个项目](https://github.com/ZhangHNan/community)    
 [Spring 文档](https://spring.io/guides)    
 [Spring Web](https://spring.io/guides/gs/serving-web-content/)   
