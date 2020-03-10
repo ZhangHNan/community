@@ -25,7 +25,7 @@ public class GithubProvider {
         try {
             Response response = client.newCall(request).execute(); //发送请求并接收Response（返回的JSON数据）
             String string = response.body().string();
-            System.out.println(string);
+//            System.out.println(string);
             //access_token=cdaf902b9a039fa8f751f6ba18a1e124c9f82d26&scope=user&token_type=bearer
             //获取token并返回
             String[] split = string.split("&");
