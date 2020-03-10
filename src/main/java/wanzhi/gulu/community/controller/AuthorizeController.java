@@ -1,6 +1,7 @@
 package wanzhi.gulu.community.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,16 +15,23 @@ public class AuthorizeController {
     @Autowired
     private GithubProvider githubProvider;
 
+    @Value("${git.client.id}")
+    private String clientId;
+    @Value("${git.client.secret}")
+    private String clientSecret;
+    @Value("${git.redirect.uri}")
+    private String redirectUri;
+
     //跳转到github授权页面授权后，github访问/callback（redirect_uri）同时携带code和state参数
     @GetMapping("/callback")
     public String callback(@RequestParam("code") String code,
                            @RequestParam(name="state") String state){//接收code和state参数
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setCode(code);
-        accessTokenDTO.setRedirect_uri("http://localhost:8887/callback");
+        accessTokenDTO.setRedirect_uri(redirectUri);
         accessTokenDTO.setState(state);
-        accessTokenDTO.setClient_id("c14b8a6a1a6b4e02b9a1");
-        accessTokenDTO.setClient_secret("713fcb0df819c99df72926787dead1ae90cc85e4");
+        accessTokenDTO.setClient_id(clientId);
+        accessTokenDTO.setClient_secret(clientSecret);
         //以post方式，请求https://github.com/login/oauth/access_token并携带某些必要参数（accessTokenDTO）
         //请求access_token接口后会返回access_token和scope=user和token_type，只需要access_token参数即可
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
