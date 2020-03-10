@@ -2,7 +2,7 @@
 
 ## 资料
 [浏览器中这个项目](http://localhost:8887/)    
-[QQ互联](https://connect.qq.com/index.html)
+[QQ互联](https://connect.qq.com/index.html)\
 [Github中的这个项目](https://github.com/ZhangHNan/community)    
 [Spring 文档](https://spring.io/guides)    
 [Spring Web](https://spring.io/guides/gs/serving-web-content/)   
