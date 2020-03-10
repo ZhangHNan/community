@@ -1,5 +1,8 @@
 package wanzhi.gulu.community.dto;
 
+/**
+ * 抽取调用access_tokenAPI需要携带的参数
+ */
 public class AccessTokenDTO {
     private String client_id;
     private String client_secret;
