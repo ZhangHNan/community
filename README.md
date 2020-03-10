@@ -2,6 +2,7 @@
 
 ## 资料
 [浏览器中这个项目](http://localhost:8887/)    
+[QQ互联](https://connect.qq.com/index.html)
 [Github中的这个项目](https://github.com/ZhangHNan/community)    
 [Spring 文档](https://spring.io/guides)    
 [Spring Web](https://spring.io/guides/gs/serving-web-content/)   
@@ -20,7 +21,7 @@
 
 ## 工具
 [Git](https://git-scm.com/download)   
-[Visual Paradigm](https://www.visual-paradigm.com)    
+[Visual Paradigm 画图工具](https://www.visual-paradigm.com)    
 [Flyway](https://flywaydb.org/getstarted/firststeps/maven)  
 [Lombok](https://www.projectlombok.org)    
 [ctotree](https://www.octotree.io/)   
