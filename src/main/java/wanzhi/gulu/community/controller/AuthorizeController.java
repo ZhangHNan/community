@@ -11,7 +11,9 @@ import wanzhi.gulu.community.mapper.UserMapper;
 import wanzhi.gulu.community.model.User;
 import wanzhi.gulu.community.provider.GithubProvider;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 @Controller
@@ -34,7 +36,8 @@ public class AuthorizeController {
     @GetMapping("/callback")
     public String callback(@RequestParam("code") String code,
                            @RequestParam(name="state") String state,
-                           HttpServletRequest request){//接收code和state参数
+                           HttpServletRequest request,
+                           HttpServletResponse response){//接收code和state参数
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setCode(code);
         accessTokenDTO.setRedirect_uri(redirectUri);
@@ -49,15 +52,14 @@ public class AuthorizeController {
         if(githubUser != null){
             //登录成功，写cookie和session
             User user = new User();
-            user.setToken(UUID.randomUUID().toString());
+            String token = UUID.randomUUID().toString();
+            user.setToken(token);
             user.setName(githubUser.getLogin());
             user.setAccountId(String.valueOf(githubUser.getId()));//将Long类型强转为字符串
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
-            userMapper.insert(user); //没有存入？？
-            User user1 = userMapper.findByToken(user.getToken());
-            System.out.println("数据库查询："+user1);
-            request.getSession().setAttribute("user",githubUser);
+            userMapper.insert(user); //没有存入？存入了，数据库中有个字段名没改（tocken=>token）导致数据刷新都没显示
+            response.addCookie(new Cookie("token",token));
             return "redirect:index";
         }else {
             //登录失败，重新登录
