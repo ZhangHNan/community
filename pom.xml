@@ -77,6 +77,27 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <!--引入flyway插件-->
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>6.3.3</version>
+                <configuration>
+                    <!--和数据源配置差不多-->
+                    <url>jdbc:h2:~/community</url>
+                    <user>sa</user>
+                    <password>123</password>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.h2database</groupId>
+                        <artifactId>h2</artifactId>
+                        <!--版本保存和H2数据库一致-->
+                        <version>1.4.199</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
         </plugins>
     </build>
 
