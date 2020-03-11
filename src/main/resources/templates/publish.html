@@ -3,9 +3,10 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>码匠社区</title>
-    <script src="js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <!--这样写的话前端和后端测试都可用使用bootstrap-->
+    <script src="../static/js/bootstrap.min.js" th:src="@{js/bootstrap.min.js}"></script>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" th:href="@{css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../static/css/bootstrap-theme.min.css" th:href="@{css/bootstrap-theme.min.css}">
 </head>
 <body>
 <nav class="navbar navbar-default">
@@ -40,8 +41,13 @@
     </div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-9 col-md-12 col-xs-12" th:height="10px" th:bgcolor="red"></div>
-            <div class="col-lg-3 col-md-12 col-xs-12" th:height="10px" th:bgcolor="green"></div>
+            <div class="col-lg-9 col-md-12 col-xs-12" >
+                <!--左3/4区域：帖子的编辑区-->
+                <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 发起</h2>
+            </div>
+            <div class="col-lg-3 col-md-12 col-xs-12" >
+                <!--右边1/4区域：使用手册-->
+            </div>
         </div>
     </div>
 </nav>
