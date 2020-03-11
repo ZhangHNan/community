@@ -6,3 +6,13 @@
 body{
     background-color: #efefef;
 }
+
+.btn-sbm{
+    float: right;
+    margin-bottom: 15px;
+}
+
+.right-bar{
+    padding-right: 30px;
+    overflow: hidden;
+}
