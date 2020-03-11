@@ -49,11 +49,10 @@
             <version>1.2.57</version>
         </dependency>
 
-        <!-- 引入H2嵌入式数据库 -->
+        <!-- 引入mysql数据库 -->
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>1.4.197</version>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
         <!--引入jdbcStarter可以使用springboot默认的连接池-->
@@ -91,10 +90,8 @@
                 </configuration>
                 <dependencies>
                     <dependency>
-                        <groupId>com.h2database</groupId>
-                        <artifactId>h2</artifactId>
-                        <!--版本保存和H2数据库一致-->
-                        <version>1.4.197</version>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
                     </dependency>
                 </dependencies>
             </plugin>
