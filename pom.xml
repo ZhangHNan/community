@@ -84,8 +84,8 @@
                 <version>6.3.0</version>
                 <configuration>
                     <!--和数据源配置差不多-->
-                    <url>jdbc:h2:~/community</url>
-                    <user>sa</user>
+                    <url>jdbc:mysql://localhost:3306/community</url>
+                    <user>root</user>
                     <password>123</password>
                 </configuration>
                 <dependencies>
