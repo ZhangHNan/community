@@ -48,7 +48,7 @@ public class AuthorizeController {
         //请求access_token接口后会返回access_token和scope=user和token_type，只需要access_token参数即可
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
         //将获取的access_token作为参数请求http://api.github.com/user会返回用户的信息，将需要使用的信息抽取为GithubUser用于接收
-        GithubUser githubUser = githubProvider.getUser(accessToken);
+        GithubUser githubUser = githubProvider.getGithubUser(accessToken);
         if(githubUser != null && githubUser.getId()!=null){
             //登录成功，保存账户信息，将token（随机值）存入cookie中
             User user = new User();
@@ -58,6 +58,7 @@ public class AuthorizeController {
             user.setAccountId(String.valueOf(githubUser.getId()));//将Long类型强转为字符串
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
+            user.setAvatarUrl(githubUser.getAvatarUrl());
             userMapper.insert(user); //没有存入？存入了，数据库中有个字段名没改（tocken=>token）导致数据刷新都没显示
             response.addCookie(new Cookie("token",token));
             if (accessTokenDTO.getState().equals("1")){

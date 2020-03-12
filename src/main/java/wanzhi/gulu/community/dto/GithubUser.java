@@ -9,6 +9,15 @@ public class GithubUser {
     private String login;  //返回的name为空的，login才是用户名
     private Long id;
     private String bio;
+    private String avatarUrl;
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
 
     public String getLogin() {
         return login;
@@ -40,6 +49,7 @@ public class GithubUser {
                 "login='" + login + '\'' +
                 ", id=" + id +
                 ", bio='" + bio + '\'' +
+                ", avatarUrl='" + avatarUrl + '\'' +
                 '}';
     }
 }
