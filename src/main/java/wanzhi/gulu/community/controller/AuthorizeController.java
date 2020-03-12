@@ -49,7 +49,7 @@ public class AuthorizeController {
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
         //将获取的access_token作为参数请求http://api.github.com/user会返回用户的信息，将需要使用的信息抽取为GithubUser用于接收
         GithubUser githubUser = githubProvider.getUser(accessToken);
-        if(githubUser != null){
+        if(githubUser != null && githubUser.getId()!=null){
             //登录成功，保存账户信息，将token（随机值）存入cookie中
             User user = new User();
             String token = UUID.randomUUID().toString();//抽取token用于存入cookie

@@ -16,3 +16,13 @@ body{
     padding-right: 30px;
     overflow: hidden;
 }
+.msg-error-div{
+    padding: 4px;
+    margin: 5px;
+    width: auto;
+    clear: both;
+}
+.msg-error{
+    padding:10px 18px;
+    /*display: none;*/
+}

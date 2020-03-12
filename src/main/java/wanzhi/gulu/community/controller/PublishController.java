@@ -39,7 +39,27 @@ public class PublishController {
                             HttpServletRequest request,//用于获取cookies
                             Model model//用于传递信息
     ){
-
+        if (question.getTitle()==null||question.getTitle().equals("")){
+            model.addAttribute("error","标题不能为空");
+            model.addAttribute("title",question.getTitle());
+            model.addAttribute("description",question.getDescription());
+            model.addAttribute("tag",question.getTag());
+            return "publish";
+        }
+        if (question.getDescription()==null||question.getDescription().equals("")){
+            model.addAttribute("error","内容不能为空");
+            model.addAttribute("title",question.getTitle());
+            model.addAttribute("description",question.getDescription());
+            model.addAttribute("tag",question.getTag());
+            return "publish";
+        }
+        if (question.getTag()==null||question.getTag().equals("")){
+            model.addAttribute("error","标签不能为空");
+            model.addAttribute("title",question.getTitle());
+            model.addAttribute("description",question.getDescription());
+            model.addAttribute("tag",question.getTag());
+            return "publish";
+        }
         User user=null;
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {//用户关闭浏览器后cookie可能清空，cookies为null执行下面遍历就会出现空指针异常
@@ -58,10 +78,14 @@ public class PublishController {
         }
         if(user == null){
             model.addAttribute("error","用户未登录");
+            //未登录时发帖页面的回调
+            model.addAttribute("title",question.getTitle());
+            model.addAttribute("description",question.getDescription());
+            model.addAttribute("tag",question.getTag());
             System.out.println("未登录！");
             loginCheck.check(cookies,request);
             System.out.println("question:"+question);
-            return "publish";
+            return "publish";//要使用model传值就不能重定向
         }
         questionMapper.create(question);
         System.out.println("question:"+question);
