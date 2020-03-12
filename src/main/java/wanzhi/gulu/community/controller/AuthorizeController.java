@@ -60,10 +60,16 @@ public class AuthorizeController {
             user.setGmtModified(user.getGmtCreate());
             userMapper.insert(user); //没有存入？存入了，数据库中有个字段名没改（tocken=>token）导致数据刷新都没显示
             response.addCookie(new Cookie("token",token));
-            return "redirect:index";
+            if (accessTokenDTO.getState().equals("1")){
+                return "redirect:index";
+            }else if(accessTokenDTO.getState().equals("2")){
+                return "redirect:publish";
+            }
         }else {
             //登录失败，重新登录
             return "redirect:index";
         }
+        System.out.println("state不是1和2");
+        return "redirect:index";
     }
 }
