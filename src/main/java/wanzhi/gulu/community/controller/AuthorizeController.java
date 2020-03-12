@@ -51,7 +51,7 @@ public class AuthorizeController {
         GithubUser githubUser = githubProvider.getGithubUser(accessToken);
         if(githubUser != null && githubUser.getId()!=null){
             //登录成功，保存账户信息，将token（随机值）存入cookie中
-            User user = new User();
+            User user = new User();//下面要使用set方法给这个对象的属性赋值，此处不可用null，必须实例化一个对象。
             String token = UUID.randomUUID().toString();//抽取token用于存入cookie
             user.setToken(token);
             user.setName(githubUser.getLogin());

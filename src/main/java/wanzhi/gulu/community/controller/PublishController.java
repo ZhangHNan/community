@@ -60,7 +60,7 @@ public class PublishController {
             model.addAttribute("tag",question.getTag());
             return "publish";
         }
-        User user=null;
+        User user=null; //下面要判断这个对象是不是null，此处不能用new User(),这样user就不是null了
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {//用户关闭浏览器后cookie可能清空，cookies为null执行下面遍历就会出现空指针异常
             for (Cookie cookie : cookies) {
