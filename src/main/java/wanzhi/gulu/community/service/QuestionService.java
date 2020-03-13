@@ -46,6 +46,9 @@ public class QuestionService {
 //        System.out.println(showButtons);
         pageDTO.setShowButtons(showButtons);
 
+        //判断是否展示前后4个按钮
+        pageDTO =pageUtils.judgeShow(pageDTO);
+
         //分页查询帖子（需要传入开始索引和显示行数）
         List<QuestionDTO> questionDTOs = questionMapper.findByPage(start,rows);
         for(QuestionDTO questionDTO: questionDTOs){

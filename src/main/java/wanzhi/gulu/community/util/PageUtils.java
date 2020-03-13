@@ -1,6 +1,7 @@
 package wanzhi.gulu.community.util;
 
 import org.springframework.stereotype.Component;
+import wanzhi.gulu.community.dto.PageDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,5 +47,32 @@ public class PageUtils {
 
     public int countStart(Integer currentPage, Integer rows) {
         return (currentPage-1)*rows;
+    }
+
+    public PageDTO judgeShow(PageDTO pageDTO) {
+        pageDTO.setShowFirst(true);
+        pageDTO.setShowEnd(true);
+        pageDTO.setShowLast(true);
+        pageDTO.setShowNext(true);
+        if(pageDTO.getCurrentPage()==1){
+            pageDTO.setShowLast(false);
+        }
+        if (pageDTO.getCurrentPage().equals(pageDTO.getTotalPage())){
+            pageDTO.setShowNext(false);
+        }
+        List<Integer> showButtons = pageDTO.getShowButtons();
+        for(int i: showButtons){
+            if (i==1){
+                pageDTO.setShowFirst(false);
+                break;
+            }
+        }
+        for(int i: showButtons){
+            if(i==pageDTO.getTotalPage()){
+                pageDTO.setShowEnd(false);
+                break;
+            }
+        }
+        return pageDTO;
     }
 }
