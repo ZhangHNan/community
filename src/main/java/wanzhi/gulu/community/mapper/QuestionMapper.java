@@ -15,5 +15,5 @@ public interface QuestionMapper {
     void create(Question question);
 
     @Select("select * from question")
-    List<QuestionDTO> findAll();
+    List<QuestionDTO> findDTOAll();
 }

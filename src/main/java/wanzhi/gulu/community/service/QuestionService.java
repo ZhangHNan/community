@@ -19,7 +19,7 @@ public class QuestionService {
     QuestionMapper questionMapper;
 
     public List<QuestionDTO> findAll(){
-        List<QuestionDTO> questionDTOs = questionMapper.findAll();
+        List<QuestionDTO> questionDTOs = questionMapper.findDTOAll();
         for(QuestionDTO questionDTO: questionDTOs){
             User user = userMapper.findById(questionDTO.getCreator());
             questionDTO.setUser(user);
