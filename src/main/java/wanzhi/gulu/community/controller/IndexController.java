@@ -31,7 +31,6 @@ public class IndexController {
     @GetMapping(value = {"/", "/index"})
     public String index(HttpServletRequest request,
                         @RequestParam(value = "currentPage",defaultValue = "1") Integer currentPage,
-                        @RequestParam(value = "rows",defaultValue = "5")Integer rows,
                         Model model) {
 
         //进入首页时，获取cookies中的token数据，根据token查询数据库中有无登录数据
@@ -39,7 +38,7 @@ public class IndexController {
         loginCheck.check(cookies,request);
 
         //获取页面帖子数据用于首页展示
-        PageDTO pageDTO = questionService.findAll(currentPage,rows);
+        PageDTO pageDTO = questionService.findAll(currentPage);
         model.addAttribute("pageDTO",pageDTO);
 
         return "index";

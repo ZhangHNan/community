@@ -24,9 +24,13 @@ public class QuestionService {
     PageUtils pageUtils;
 
     //查询帖子并作分页
-    public PageDTO findAll(Integer currentPage, Integer rows){
+    public PageDTO findAll(Integer currentPage){
         PageDTO pageDTO = new PageDTO();
         pageDTO.setCurrentPage(currentPage);
+        //设置每页展示行数
+        int rows = 4;
+        //设置每页展示页面按钮数
+        int buttonCount =4; //请设置为奇数，设置为偶数中间段还是奇数个，头和尾才是偶数个
         pageDTO.setRows(rows);
         //给PageDTO赋值
         //查询帖子总数并赋值
@@ -42,7 +46,7 @@ public class QuestionService {
         pageDTO.setStart(start);
 
         //计算展示按钮的值并赋值
-        List<Integer> showButtons= pageUtils.countButton(currentPage,totalPage);
+        List<Integer> showButtons= pageUtils.countButton(currentPage,totalPage,buttonCount);
 //        System.out.println(showButtons);
         pageDTO.setShowButtons(showButtons);
 

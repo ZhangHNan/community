@@ -9,33 +9,31 @@ import java.util.List;
 @Component
 public class PageUtils {
 
-    public List<Integer> countButton(int currentPage, int totalPage) {
+    public List<Integer> countButton(int currentPage, int totalPage,int buttonCount) {
         List<Integer> showButton = new ArrayList<>();
-        if (totalPage < 5) {
-            for (int i = 1; i <= currentPage; i++) {
+        //实现按钮小于想要展示的按钮数（buttonCount）
+        if (totalPage <= buttonCount) {
+            for (int i = 1; i <= totalPage; i++) {
                 showButton.add(i);
             }
             return showButton;
         }
-        if(currentPage <= 3){
-            for (int i = 1 ; i <= 5; i++) {
+        //当前按钮在前排
+        if(currentPage <= buttonCount/2+1){
+            for (int i = 1 ; i <= buttonCount; i++) {
                 showButton.add(i);
             }
             return showButton;
         }
-        if (totalPage - currentPage == 0) {
-            for (int i = currentPage - 4; i <= totalPage; i++) {
+        //当前按钮在后排
+        if (totalPage - currentPage < buttonCount/2+1) {
+            for (int i = totalPage - buttonCount + 1; i <= totalPage; i++) {
                 showButton.add(i);
             }
             return showButton;
         }
-        if (totalPage - currentPage == 1) {
-            for (int i = currentPage - 3; i <= totalPage; i++) {
-                showButton.add(i);
-            }
-            return showButton;
-        }
-        for (int i = currentPage - 2; i <= currentPage+2; i++) {
+        //当前按钮在中间
+        for (int i = currentPage -buttonCount/2; i <= currentPage+buttonCount/2; i++) {
             showButton.add(i);
         }
         return showButton;
