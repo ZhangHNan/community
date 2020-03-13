@@ -27,10 +27,10 @@ public class QuestionService {
     public PageDTO findAll(Integer currentPage){
         PageDTO pageDTO = new PageDTO();
         pageDTO.setCurrentPage(currentPage);
-        //设置每页展示行数
-        int rows = 4;
+        //设置每页展示数据行数
+        int rows = 7;
         //设置每页展示页面按钮数
-        int buttonCount =4; //请设置为奇数，设置为偶数中间段还是奇数个，头和尾才是偶数个
+        int buttonCount =5; //请设置为奇数，设置为偶数中间段还是奇数个，头和尾才是偶数个
         pageDTO.setRows(rows);
         //给PageDTO赋值
         //查询帖子总数并赋值
@@ -50,7 +50,7 @@ public class QuestionService {
 //        System.out.println(showButtons);
         pageDTO.setShowButtons(showButtons);
 
-        //判断是否展示前后4个按钮
+        //判断是否展示前面两个和后面两个按钮
         pageDTO =pageUtils.judgeShow(pageDTO);
 
         //分页查询帖子（需要传入开始索引和显示行数）
