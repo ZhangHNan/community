@@ -49,32 +49,22 @@
                 <!--左3/4区域：主页的主体-->
                 <h2><span class="glyphicon glyphicon-list" aria-hidden="true"></span> 发现</h2>
                 <hr>
-                <div class="media">
+
+                <div class="media" th:each="questionDTO:${questionDTOs}">
                     <div class="media-left">
                         <a href="#">
-                            <img class="media-object img-rounded img-avatar" th:src="@{img/9150e4e5gy1gab4a9xjurj205h04wdfr.jpg}" src="../static/img/9150e4e5gy1gab4a9xjurj205h04wdfr.jpg">
+                            <img class="media-object img-rounded img-avatar" th:src="${questionDTO.user.avatarUrl}" src="../static/img/9150e4e5gy1gab4a9xjurj205h04wdfr.jpg">
                         </a>
                     </div>
                     <div class="media-body">
-                        <h4 class="media-heading">怎么学会java</h4>
-                        怎么学会java怎么学会java怎么学会java怎么学会java怎么学会java怎么学会java
+                        <h4 class="media-heading" th:text="${questionDTO.title}">怎么学会java</h4>
+                        [[${questionDTO.description}]]
                         <br>
-                        <span class="text-desc"> 2 个回复 | 31 次浏览 | 1小时前</span>
+                        <span class="text-desc"> [[${questionDTO.commentCount}]] 个回复 | [[${questionDTO.viewCount}]] 次浏览 | <span th:text="${#dates.format(questionDTO.gmtCreate,'yyyy-MM-dd')}"
+                        ></span></span>
                     </div>
                 </div>
-                <div class="media">
-                    <div class="media-left">
-                        <a href="#">
-                            <img class="media-object img-rounded img-avatar" th:src="@{img/9150e4e5gy1gab4a9xjurj205h04wdfr.jpg}" src="../static/img/9150e4e5gy1gab4a9xjurj205h04wdfr.jpg">
-                        </a>
-                    </div>
-                    <div class="media-body">
-                        <h4 class="media-heading">怎么学会java</h4>
-                        怎么学会java怎么学会java怎么学会java怎么学会java怎么学会java怎么学会java
-                        <br>
-                        <span class="text-desc"> 2 个回复 | 31 次浏览 | 1小时前</span>
-                    </div>
-                </div>
+
             </div>
             <div class="col-lg-3 col-md-12 col-xs-12 right-bar">
                 <!--右边1/4区域：热门话题-->
