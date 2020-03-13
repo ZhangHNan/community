@@ -82,7 +82,7 @@
                                 <span aria-hidden="true"><</span>
                             </a>
                         </li>
-                        <li th:each="showButton:${pageDTO.showButtons}">
+                        <li th:each="showButton:${pageDTO.showButtons}" th:class="${pageDTO.currentPage==showButton?'active':''}">
                             <a th:href="@{/index(currentPage=${showButton})}" th:text="${showButton}"></a>
                         </li>
                         <li th:if="${pageDTO.showNext==true}">
