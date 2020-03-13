@@ -23,7 +23,7 @@ public class QuestionService {
         for(QuestionDTO questionDTO: questionDTOs){
             User user = userMapper.findById(questionDTO.getCreator());
             questionDTO.setUser(user);
-//            System.out.println("QuestionService的questionDTO--"+questionDTO.getId()+":"+questionDTO);
+            System.out.println("QuestionService的questionDTO--"+questionDTO.getId()+":"+questionDTO);
         }
 //        System.out.println("QuestionService的所有QuestionDTO--："+questionDTOs);
         return questionDTOs;
