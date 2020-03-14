@@ -30,6 +30,13 @@ public class QuestionService {
     @Value("${page.index.buttonCount}")
     private String indexButtonCount;//设置每页展示页面按钮数。请设置为奇数，设置为偶数中间段还是奇数个，头和尾才是偶数个
 
+    @Value("${page.question.rows}")
+    private String questionRows;//设置每页展示数据行数
+
+    @Value("${page.question.buttonCount}")
+    private String questionButtonCount;
+
+
     //查询帖子并作分页
     public PageDTO findPage(Integer currentPage){
         //传入要跳转的页面、每页显示数据条数、每页显示指定到某页的按钮数即可自动构建pageDTO对象并返回
@@ -37,6 +44,6 @@ public class QuestionService {
     }
 
     public PageDTO findPageByCreator(Integer currentPage, Integer id) {
-        return pageUtils.autoStructurePageDTOByCreator(currentPage, Integer.parseInt(indexRows),Integer.parseInt(indexButtonCount),id);
+        return pageUtils.autoStructurePageDTOByCreator(currentPage, Integer.parseInt(questionRows),Integer.parseInt(questionButtonCount),id);
     }
 }

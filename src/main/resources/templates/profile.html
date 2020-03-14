@@ -41,25 +41,25 @@
                 <nav>
                     <ul class="pagination">
                         <li th:if="${pageDTO.showFirst==true}">
-                            <a th:href="@{/index(currentPage='1')}" aria-label="Previous">
+                            <a th:href="@{/profile/questions(currentPage='1')}" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
                         <li th:if="${pageDTO.showLast==true}">
-                            <a th:href="@{/index(currentPage=${pageDTO.currentPage}-1)}" aria-label="Previous">
+                            <a th:href="@{/profile/questions(currentPage=${pageDTO.currentPage}-1)}" aria-label="Previous">
                                 <span aria-hidden="true">&lt;</span>
                             </a>
                         </li>
                         <li th:each="showButton:${pageDTO.showButtons}" th:class="${pageDTO.currentPage==showButton?'active':''}">
-                            <a th:href="@{/index(currentPage=${showButton})}" th:text="${showButton}"></a>
+                            <a th:href="@{/profile/questions(currentPage=${showButton})}" th:text="${showButton}"></a>
                         </li>
                         <li th:if="${pageDTO.showNext==true}">
-                            <a th:href="@{/index(currentPage=${pageDTO.currentPage+1})}" aria-label="Previous">
+                            <a th:href="@{/profile/questions(currentPage=${pageDTO.currentPage+1})}" aria-label="Previous">
                                 <span aria-hidden="true">&gt;</span>
                             </a>
                         </li>
                         <li th:if="${pageDTO.showEnd==true}">
-                            <a th:href="@{/index(currentPage=${pageDTO.totalPage})}" aria-label="Next">
+                            <a th:href="@{/profile/questions(currentPage=${pageDTO.totalPage})}" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>
