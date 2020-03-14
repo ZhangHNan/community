@@ -24,9 +24,11 @@ public interface QuestionMapper {
     @Select("select * from question limit #{start},#{rows}")
     List<QuestionDTO> findByPage(@Param("start") int start, @Param("rows") Integer rows);
 
-    @Select("select count(1) from question where creator = #{accountId}")
-    Integer findTotalCountByCreator(@Param("accountId") int accountId);
+    //这里有问题
+    @Select("select count(1) from question where creator = #{id}")
+    Integer findTotalCountById(@Param("id") int id);
 
     @Select("select * from question where creator = #{id} limit #{start},#{rows}")
     List<QuestionDTO> findByPageByCreator(@Param("start")int start,@Param("rows") int rows,@Param("id") Integer id);
+
 }

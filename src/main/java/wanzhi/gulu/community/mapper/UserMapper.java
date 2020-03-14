@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import wanzhi.gulu.community.model.User;
 
+import java.util.List;
+
 @Mapper
 public interface UserMapper {
 
@@ -18,6 +20,9 @@ public interface UserMapper {
     @Select("select * from user where id = #{id}")
     User findById(@Param("id") Integer id);
 
-    @Select("select * from account_id where id = #{id}")
-    String findAccountIdById(Integer id);
+    @Select("select account_id from user where id = #{id}")
+    String findAccountIdById(@Param("id") Integer id);
+
+    @Select("select id from user where account_id = #{accountId}")
+    List<Integer> findAllIdByAccountId(@Param("accountId") String accountId);
 }

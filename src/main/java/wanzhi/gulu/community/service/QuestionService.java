@@ -37,6 +37,6 @@ public class QuestionService {
     }
 
     public PageDTO findPageByCreator(Integer currentPage, Integer id) {
-        return null;
+        return pageUtils.autoStructurePageDTOByCreator(currentPage, Integer.parseInt(indexRows),Integer.parseInt(indexButtonCount),id);
     }
 }

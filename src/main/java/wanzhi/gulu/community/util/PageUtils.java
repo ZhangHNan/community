@@ -35,13 +35,19 @@ public class PageUtils {
         pageDTO.setRows(rows);
         //给PageDTO赋值
         //查询帖子（数据）总数并赋值
-        Integer totalCount = null;
+        Integer totalCount = 0;
+        List<Integer> ids =null;
         if(id==null){
             totalCount = questionMapper.findTotalCount();
         }
         else{
+            //这里有问题
             String accountId = userMapper.findAccountIdById(id);
-            totalCount = questionMapper.findTotalCountByCreator(Integer.parseInt(accountId));
+            ids = userMapper.findAllIdByAccountId(accountId);
+            for (Integer id_ : ids){
+                int count = questionMapper.findTotalCountById(id_);
+                totalCount=totalCount+count;
+            }
         }
         pageDTO.setTotalCount(totalCount);
 
@@ -62,11 +68,12 @@ public class PageUtils {
 
         //分页查询帖子（需要传入开始索引和显示行数）
         List<QuestionDTO> questionDTOs=null;
-        if(id==null){
+//        if(id==null){
             questionDTOs = questionMapper.findByPage(start,rows);
-        }else {
-            questionDTOs = questionMapper.findByPageByCreator(start,rows,id);
-        }
+//        }else {
+//            //这里有问题
+//            questionDTOs = questionMapper.findByPageByCreator(start,rows,id);
+//        }
 
         for(QuestionDTO questionDTO: questionDTOs){
             User user = userMapper.findById(questionDTO.getCreator());
