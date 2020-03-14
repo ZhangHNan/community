@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import wanzhi.gulu.community.check.LoginCheck;
+import wanzhi.gulu.community.model.User;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +24,10 @@ public class ProfileController {
 
         //进入首页时，获取cookies中的token数据，根据token查询数据库中有无登录数据
         Cookie[] cookies = request.getCookies();
-        loginCheck.check(cookies,request);
+        User user = loginCheck.check(cookies, request);
+        if (user == null){
+            return "redirect:index";
+        }
 
         if ("questions".equals(action)){//将字符写在前面，调用字符串的equals方法可以防止空指针异常。（action可能为null）
             model.addAttribute("section","questions");
