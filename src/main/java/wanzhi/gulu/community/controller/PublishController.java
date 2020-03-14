@@ -82,13 +82,13 @@ public class PublishController {
             model.addAttribute("title",question.getTitle());
             model.addAttribute("description",question.getDescription());
             model.addAttribute("tag",question.getTag());
-            System.out.println("未登录！");
+//            System.out.println("未登录！");
             loginCheck.check(cookies,request);
-            System.out.println("question:"+question);
+//            System.out.println("question:"+question);
             return "publish";//要使用model传值就不能重定向
         }
         questionMapper.create(question);
-        System.out.println("question:"+question);
+//        System.out.println("question:"+question);
         return "redirect:/";
     }
 }
