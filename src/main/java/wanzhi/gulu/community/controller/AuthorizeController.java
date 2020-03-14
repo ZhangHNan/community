@@ -64,7 +64,7 @@ public class AuthorizeController {
             if (accessTokenDTO.getState().equals("1")){
                 return "redirect:index";
             }else if(accessTokenDTO.getState().equals("2")){
-                return "redirect:publish";
+                return "redirect:publish";//复用之后暂时这个功能实现不了，后期再改改
             }
         }else {
             //登录失败，重新登录

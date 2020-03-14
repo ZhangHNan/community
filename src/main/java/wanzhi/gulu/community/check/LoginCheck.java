@@ -19,6 +19,7 @@ public class LoginCheck {
 
     /**
      * 检查cookie中的token数据，根据token查询数据库中有无登录数据，并将user数据存入session
+     * 没有登录检查的话，重启服务器后，再次访问页面是无法变成登录状态的！所以到所有页面都要有登录检查
      * @param cookies 用户获取token数据
      * @param request 用于获取session和将user数据存入session
      */
