@@ -1,0 +1,16 @@
+.main{
+    margin: 30px;
+    background-color: white;
+}
+
+body{
+    background-color: #efefef;
+}
+
+.right-bar{
+    padding-right: 30px;
+    overflow: hidden;
+}
+.profile .list-group{
+    margin-top: 18px;
+}
