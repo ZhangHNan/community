@@ -20,9 +20,9 @@ public interface UserMapper {
     @Select("select * from user where id = #{id}")
     User findById(@Param("id") Integer id);
 
-    @Select("select account_id from user where id = #{id}")
-    String findAccountIdById(@Param("id") Integer id);
-
-    @Select("select id from user where account_id = #{accountId}")
-    List<Integer> findAllIdByAccountId(@Param("accountId") String accountId);
+//    @Select("select account_id from user where id = #{id}")
+//    String findAccountIdById(@Param("id") Integer id);
+//
+//    @Select("select id from user where account_id = #{accountId}")
+//    List<Integer> findAllIdByAccountId(@Param("accountId") String accountId);
 }
