@@ -38,7 +38,7 @@ public class IndexController {
         loginCheck.check(cookies,request);
 
         //获取页面帖子数据用于首页展示
-        PageDTO pageDTO = questionService.findAll(currentPage);
+        PageDTO pageDTO = questionService.findPage(currentPage);
         model.addAttribute("pageDTO",pageDTO);
 
         return "index";
