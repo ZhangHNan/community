@@ -34,8 +34,6 @@ public class IndexController {
                         Model model) {
 
         //进入首页时，获取cookies中的token数据，根据token查询数据库中有无登录数据
-        Cookie[] cookies = request.getCookies();
-        loginCheck.check(cookies,request);
 
         //获取页面帖子数据用于首页展示
         PageDTO pageDTO = questionService.findPage(currentPage);

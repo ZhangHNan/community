@@ -28,10 +28,8 @@ public class ProfileController {
                           Model model,
                           @RequestParam(value = "currentPage",defaultValue = "1") Integer currentPage,
                           HttpServletRequest request){
-
-        //进入首页时，获取cookies中的token数据，根据token查询数据库中有无登录数据
-        Cookie[] cookies = request.getCookies();
-        User user = loginCheck.check(cookies, request);
+        //从session域中获取登录的user
+        User user = (User)request.getSession().getAttribute("user");
         if (user == null){
             return "redirect:index";
         }

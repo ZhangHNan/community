@@ -23,17 +23,16 @@ public class LoginCheck {
      * @param cookies 用户获取token数据
      * @param request 用于获取session和将user数据存入session
      */
-    public User check(Cookie[] cookies, HttpServletRequest request){
+    public void check(Cookie[] cookies, HttpServletRequest request){
         if (cookies != null && cookies.length!=0){//用户关闭浏览器后cookie可能清空，cookies为null执行下面遍历就会出现空指针异常
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("token")) {
                     String token = cookie.getValue();
                     User user = userMapper.findByToken(token);
                     request.getSession().setAttribute("user", user);
-                    return user;
+                    break;
                 }
             }
         }
-        return null;
     }
 }

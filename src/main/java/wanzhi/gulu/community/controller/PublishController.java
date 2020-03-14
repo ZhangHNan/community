@@ -29,8 +29,6 @@ public class PublishController {
     @GetMapping("/publish")
     public String publish(HttpServletRequest request){
         //进入publish时，也要获取cookies中的token数据，根据token查询数据库中有无登录数据
-        Cookie[] cookies = request.getCookies();
-        loginCheck.check(cookies,request);
         return "publish";
     }
 
