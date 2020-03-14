@@ -22,6 +22,49 @@
                     <span th:if="${section=='replies'}" class=" glyphicon glyphicon-question-sign" aria-hidden="true"></span>
                     [[${sectionName}]]</h2>
                 <hr>
+                <div class="media" th:each="questionDTO:${pageDTO.questionDTOS}">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object img-rounded img-avatar" th:src="${questionDTO.user.avatarUrl}"
+                                 src="../static/img/9150e4e5gy1gab4a9xjurj205h04wdfr.jpg">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading" th:text="${questionDTO.title}">怎么学会java</h4>
+                        [[${questionDTO.description}]]
+                        <br>
+                        <span class="text-desc"> [[${questionDTO.commentCount}]] 个回复 | [[${questionDTO.viewCount}]] 次浏览 | <span
+                                th:text="${#dates.format(questionDTO.gmtCreate,'yyyy-MM-dd HH:mm')}"
+                        ></span></span>
+                    </div>
+                </div>
+                <nav>
+                    <ul class="pagination">
+                        <li th:if="${pageDTO.showFirst==true}">
+                            <a th:href="@{/index(currentPage='1')}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li th:if="${pageDTO.showLast==true}">
+                            <a th:href="@{/index(currentPage=${pageDTO.currentPage}-1)}" aria-label="Previous">
+                                <span aria-hidden="true">&lt;</span>
+                            </a>
+                        </li>
+                        <li th:each="showButton:${pageDTO.showButtons}" th:class="${pageDTO.currentPage==showButton?'active':''}">
+                            <a th:href="@{/index(currentPage=${showButton})}" th:text="${showButton}"></a>
+                        </li>
+                        <li th:if="${pageDTO.showNext==true}">
+                            <a th:href="@{/index(currentPage=${pageDTO.currentPage+1})}" aria-label="Previous">
+                                <span aria-hidden="true">&gt;</span>
+                            </a>
+                        </li>
+                        <li th:if="${pageDTO.showEnd==true}">
+                            <a th:href="@{/index(currentPage=${pageDTO.totalPage})}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
             <div class="col-lg-3 col-md-12 col-xs-12 right-bar">
                 <!--右边1/4区域：选择列表-->

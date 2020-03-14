@@ -35,4 +35,8 @@ public class QuestionService {
         //传入要跳转的页面、每页显示数据条数、每页显示指定到某页的按钮数即可自动构建pageDTO对象并返回
         return pageUtils.autoStructurePageDTO(currentPage, Integer.parseInt(indexRows),Integer.parseInt(indexButtonCount));
     }
+
+    public PageDTO findPageByCreator(Integer currentPage, Integer id) {
+        return null;
+    }
 }

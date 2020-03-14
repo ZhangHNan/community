@@ -26,12 +26,23 @@ public class PageUtils {
 
     //PageDTO的自动构造方法，传入PageDTO对象即可构造
     public PageDTO autoStructurePageDTO(int currentPage,int rows,int buttonCount){
+        return autoStructurePageDTOByCreator(currentPage,rows,buttonCount,null);
+    }
+
+    public PageDTO autoStructurePageDTOByCreator(int currentPage,int rows,int buttonCount,Integer id){
         PageDTO pageDTO = new PageDTO();
         pageDTO.setCurrentPage(currentPage);
         pageDTO.setRows(rows);
         //给PageDTO赋值
         //查询帖子（数据）总数并赋值
-        int totalCount = questionMapper.findTotalCount();
+        Integer totalCount = null;
+        if(id==null){
+            totalCount = questionMapper.findTotalCount();
+        }
+        else{
+            String accountId = userMapper.findAccountIdById(id);
+            totalCount = questionMapper.findTotalCountByCreator(Integer.parseInt(accountId));
+        }
         pageDTO.setTotalCount(totalCount);
 
         //计算最后一页数（需要计算出帖子总数）并赋值
@@ -50,7 +61,13 @@ public class PageUtils {
         pageDTO = judgeShow(pageDTO);
 
         //分页查询帖子（需要传入开始索引和显示行数）
-        List<QuestionDTO> questionDTOs = questionMapper.findByPage(start,rows);
+        List<QuestionDTO> questionDTOs=null;
+        if(id==null){
+            questionDTOs = questionMapper.findByPage(start,rows);
+        }else {
+            questionDTOs = questionMapper.findByPageByCreator(start,rows,id);
+        }
+
         for(QuestionDTO questionDTO: questionDTOs){
             User user = userMapper.findById(questionDTO.getCreator());
             questionDTO.setUser(user);
