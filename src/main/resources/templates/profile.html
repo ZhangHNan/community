@@ -22,7 +22,7 @@
                     <span th:if="${section=='replies'}" class=" glyphicon glyphicon-question-sign" aria-hidden="true"></span>
                     [[${sectionName}]]</h2>
                 <hr>
-                <div class="media" th:each="questionDTO:${pageDTO.questionDTOS}">
+                <div class="media" th:if="${section=='questions'}" th:each="questionDTO:${pageDTO.questionDTOS}">
                     <div class="media-left">
                         <a href="#">
                             <img class="media-object img-rounded img-avatar" th:src="${questionDTO.user.avatarUrl}"
@@ -38,7 +38,7 @@
                         ></span></span>
                     </div>
                 </div>
-                <nav>
+                <nav th:if="${section=='questions'}">
                     <ul class="pagination">
                         <li th:if="${pageDTO.showFirst==true}">
                             <a th:href="@{/profile/questions(currentPage='1')}" aria-label="Previous">
