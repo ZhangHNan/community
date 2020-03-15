@@ -24,7 +24,7 @@ public class PageUtils {
     @Autowired
     UserMapper userMapper;
 
-    //PageDTO的自动构造方法，传入PageDTO对象即可构造
+    //PageDTO的自动构造方法，传入PageDTO对象即可构造pageDTO并返回
     public PageDTO autoStructurePageDTO(int currentPage, int rows, int buttonCount) {
         return autoStructurePageDTOByCreator(currentPage, rows, buttonCount, null);
     }
@@ -36,10 +36,11 @@ public class PageUtils {
         //给PageDTO赋值
         //查询帖子（数据）总数并赋值
         Integer totalCount = 0;
-        List<Integer> ids = null;
         if (id == null) {
+            //查询所有帖子总数
             totalCount = questionMapper.findTotalCount();
         } else {
+            //根据创建者来查询帖子总数
             totalCount = questionMapper.findTotalCountById(id);
         }
         pageDTO.setTotalCount(totalCount);
@@ -62,9 +63,10 @@ public class PageUtils {
         //分页查询帖子（需要传入开始索引和显示行数）
         List<QuestionDTO> questionDTOs = null;
         if (id == null) {
+            //分页查询所有帖子
             questionDTOs = questionMapper.findByPage(start, rows);
         } else {
-            //这里有问题
+            //根据创建者来分页查询帖子
             questionDTOs = questionMapper.findByPageByCreator(start, rows, id);
         }
 
@@ -139,16 +141,20 @@ public class PageUtils {
      * @return 到首页、到上一页、到下一页、到尾页 这四个按钮的显示情况
      */
     private PageDTO judgeShow(PageDTO pageDTO) {
+        //先默认4个都显示
         pageDTO.setShowFirst(true);
         pageDTO.setShowEnd(true);
         pageDTO.setShowLast(true);
         pageDTO.setShowNext(true);
+        //如果当前页是1的话，不显示到上一页
         if (pageDTO.getCurrentPage() == 1) {
             pageDTO.setShowLast(false);
         }
+        //如果当前页是最后一页的话，不显示到下一页
         if (pageDTO.getCurrentPage().equals(pageDTO.getTotalPage())) {
             pageDTO.setShowNext(false);
         }
+        //如果展示按钮中包含1的话，不展示到首页
         List<Integer> showButtons = pageDTO.getShowButtons();
         for (int i : showButtons) {
             if (i == 1) {
@@ -156,6 +162,7 @@ public class PageUtils {
                 break;
             }
         }
+        //如果展示按钮中包含最后一页的话，不显示到尾页
         for (int i : showButtons) {
             if (i == pageDTO.getTotalPage()) {
                 pageDTO.setShowEnd(false);

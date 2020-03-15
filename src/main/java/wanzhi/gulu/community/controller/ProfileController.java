@@ -11,7 +11,6 @@ import wanzhi.gulu.community.dto.PageDTO;
 import wanzhi.gulu.community.model.User;
 import wanzhi.gulu.community.service.QuestionService;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
@@ -31,7 +30,8 @@ public class ProfileController {
         //从session域中获取登录的user
         User user = (User)request.getSession().getAttribute("user");
         if (user == null){
-            return "redirect:index";
+            //如果没有重定向到首页，注意：如果是“redirect:index”，它会跳转到同级的index。即/profile/index
+            return "redirect:/index";
         }
 
         if ("questions".equals(action)){//将字符写在前面，调用字符串的equals方法可以防止空指针异常。（action可能为null）

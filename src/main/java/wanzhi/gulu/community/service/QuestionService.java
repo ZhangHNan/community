@@ -25,16 +25,16 @@ public class QuestionService {
     PageUtils pageUtils;
 
     @Value("${page.index.rows}")
-    private String indexRows;//设置每页展示数据行数
+    private String indexRows;//设置首页每页展示数据行数
 
     @Value("${page.index.buttonCount}")
-    private String indexButtonCount;//设置每页展示页面按钮数。请设置为奇数，设置为偶数中间段还是奇数个，头和尾才是偶数个
+    private String indexButtonCount;//设置首页每页展示页面按钮数。请设置为奇数，设置为偶数中间段还是奇数个，头和尾才是偶数个
 
     @Value("${page.question.rows}")
-    private String questionRows;//设置每页展示数据行数
+    private String questionRows;//设置我的问题页每页展示数据行数
 
     @Value("${page.question.buttonCount}")
-    private String questionButtonCount;
+    private String questionButtonCount;//设置我的问题页每页展示页面按钮数。请设置为奇数，设置为偶数中间段还是奇数个，头和尾才是偶数个
 
 
     //查询帖子并作分页
