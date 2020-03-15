@@ -17,13 +17,30 @@
         <div class="row">
             <div class="col-lg-9 col-md-12 col-xs-12">
                 <!--左3/4区域：主页的主体-->
-                <h3><span th:text="${questionDTO.title}" class="glyphicon glyphicon-list" aria-hidden="true"></span> 问题详情</h3>
+                <h2><span th:text="${questionDTO.title}">标题 </span></h2>
+                <span class="text-desc">
+                    作者：<span th:text="${questionDTO.user.name}">黎明</span>
+                    | <span th:text="${#dates.format(questionDTO.gmtCreate,'yyyy-MM-dd HH:mm')}">2019-06-09</span>
+                    | 阅读数：<span th:text="${questionDTO.viewCount}">11</span>
+                </span>
                 <hr>
 
+                <span th:text="${questionDTO.description}">内容</span>
+
+                <hr>
+                <span th:text="${questionDTO.tag}">标签</span>
             </div>
             <div class="col-lg-3 col-md-12 col-xs-12 right-bar">
                 <!--右边1/4区域：热门话题-->
-
+                <div>
+                    <h3>发起人</h3>
+                    <img class="media-object img-rounded img-avatar" th:src="${questionDTO.user.avatarUrl}"
+                         src="../static/img/9150e4e5gy1gab4a9xjurj205h04wdfr.jpg">
+                    <span th:text="${questionDTO.user.name}">黎明</span>
+                </div>
+                <div>
+                    <h3>相关问题</h3>
+                </div>
             </div>
         </div>
     </div>

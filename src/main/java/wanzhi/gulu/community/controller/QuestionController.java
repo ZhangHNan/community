@@ -21,7 +21,6 @@ public class QuestionController {
                            Model model){
         QuestionDTO questionDTO = questionService.findQuestionById(id);
         model.addAttribute("questionDTO",questionDTO);
-        System.out.println(questionDTO.getId()+":"+questionDTO);
         return "question";
     }
 }
