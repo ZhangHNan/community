@@ -31,4 +31,6 @@ public interface QuestionMapper {
     @Select("SELECT * FROM question WHERE creator IN(SELECT id FROM USER WHERE account_id IN(SELECT account_id FROM USER WHERE id = #{id})) limit #{start},#{rows}")
     List<QuestionDTO> findByPageByCreator(@Param("start")int start,@Param("rows") int rows,@Param("id") Integer id);
 
+    @Select("select * from question where id = #{id}")
+    QuestionDTO findById(@Param("id") Integer id);
 }
