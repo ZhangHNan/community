@@ -100,11 +100,11 @@ public class PublishController {
                        HttpServletRequest request,
                        Model model){
         //判断执行这个请求的是否是本人（登录的人）
-        User user = (User)request.getSession().getAttribute("user");
+        User sessionUser = (User)request.getSession().getAttribute("user");
         Integer creator = questionMapper.findCreatorById(id);
-        if(!user.getId().equals(creator)){
-            //如果不是本人直接返回首页
-            return "index";
+        if(!sessionUser.getId().equals(creator)){
+            //如果不是本人操作直接返回首页
+            return "redirect:/index";
         }
         //安全校验通过，查询信息并返回
         QuestionDTO question = questionMapper.findById(id);
@@ -123,6 +123,14 @@ public class PublishController {
                          HttpServletRequest request,//用于获取cookies
                          Model model//用于传递信息
     ){
+        //判断执行这个请求的是否是本人（登录的人）
+        User sessionUser = (User)request.getSession().getAttribute("user");
+        Integer creator = questionMapper.findCreatorById(id);
+        if(!sessionUser.getId().equals(creator)){
+            //如果不是本人操作直接返回首页
+            return "redirect:/index";
+        }
+        //安全校验通过，执行修改逻辑
         if (question.getTitle()==null||question.getTitle().equals("")){
             model.addAttribute("error","标题不能为空");
             model.addAttribute("title",question.getTitle());
