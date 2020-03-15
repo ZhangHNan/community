@@ -168,6 +168,13 @@ public class PageUtils {
                 break;
             }
         }
+        //当页面一个数据页没有的时候都不显示
+        if (pageDTO.getTotalCount()==0){
+            pageDTO.setShowFirst(false);
+            pageDTO.setShowEnd(false);
+            pageDTO.setShowLast(false);
+            pageDTO.setShowNext(false);
+        }
         return pageDTO;
     }
 }

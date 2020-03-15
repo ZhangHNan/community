@@ -10,7 +10,9 @@ import wanzhi.gulu.community.dto.PageDTO;
 import wanzhi.gulu.community.mapper.UserMapper;
 import wanzhi.gulu.community.service.QuestionService;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class IndexController {
@@ -35,5 +37,14 @@ public class IndexController {
         model.addAttribute("pageDTO",pageDTO);
 
         return "index";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response){
+        request.getSession().removeAttribute("user");
+        Cookie cookie = new Cookie("token", null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return "redirect:/index";
     }
 }
