@@ -25,10 +25,21 @@
                 </span>
                 <hr>
 
-                <span th:text="${questionDTO.description}">内容</span>
+                <div th:text="${questionDTO.description}">内容</div>
 
                 <hr>
                 <span th:text="${questionDTO.tag}">标签</span>
+                <hr>
+                <a th:href="@{'/publish/'+${questionDTO.id}}" href="#" class="question-edit">
+                    <span class="glyphicon glyphicon-edit " aria-hidden="true"></span>
+                    编辑
+                </a>
+                <hr>
+                <div>
+                    评论区
+                    ===============
+                    ===============
+                </div>
             </div>
             <div class="col-lg-3 col-md-12 col-xs-12 right-bar">
                 <!--右边1/4区域：热门话题-->
@@ -38,6 +49,7 @@
                          src="../static/img/9150e4e5gy1gab4a9xjurj205h04wdfr.jpg">
                     <span th:text="${questionDTO.user.name}">黎明</span>
                 </div>
+                <hr>
                 <div>
                     <h3>相关问题</h3>
                 </div>
