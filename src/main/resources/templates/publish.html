@@ -20,11 +20,13 @@
                 <!--左3/4区域：帖子的编辑区-->
                 <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 发起</h2>
                 <hr>
+                <!--第一次发帖时要提交的表单-->
                 <form th:if="${questionId==null}" th:action="@{/publish}" action="/publish" method="post" >
                 <!--<form th:action="@{'/publish/'+${questionId}}" action="/publish" method="post" >-->
                     <!--两个相同的片段而且有id，将它抽取为公共片段-->
                     <div th:insert="~{questionForm :: form}"></div>
                 </form>
+                <!--重新编辑时要提交的表单-->
                 <form th:if="${questionId!=null}" th:action="@{'/publish/'+${questionId}}" action="/publish" method="post" >
                     <div th:insert="~{questionForm :: form}"></div>
                 </form>
