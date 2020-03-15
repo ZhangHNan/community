@@ -10,6 +10,7 @@ import wanzhi.gulu.community.dto.GithubUser;
 import wanzhi.gulu.community.mapper.UserMapper;
 import wanzhi.gulu.community.model.User;
 import wanzhi.gulu.community.provider.GithubProvider;
+import wanzhi.gulu.community.service.UserService;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +31,7 @@ public class AuthorizeController {
     private String redirectUri;
 
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
     //跳转到github授权页面授权后，github访问/callback（redirect_uri）同时携带code和state参数
     @GetMapping("/callback")
@@ -56,10 +57,9 @@ public class AuthorizeController {
             user.setToken(token);
             user.setName(githubUser.getLogin());
             user.setAccountId(String.valueOf(githubUser.getId()));//将Long类型强转为字符串
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModified(user.getGmtCreate());
+            user.setGmtModified(System.currentTimeMillis());
             user.setAvatarUrl(githubUser.getAvatarUrl());
-            userMapper.insert(user); //没有存入？存入了，数据库中有个字段名没改（tocken=>token）导致数据刷新都没显示
+            userService.createOrUpdate(user); //没有存入？存入了，数据库中有个字段名没改（tocken=>token）导致数据刷新都没显示
             response.addCookie(new Cookie("token",token));
             if (accessTokenDTO.getState().equals("1")){
                 return "redirect:/index";

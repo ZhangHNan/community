@@ -30,11 +30,13 @@
                 <hr>
                 <span th:text="${questionDTO.tag}">标签</span>
                 <hr>
-                <a th:href="@{'/publish/'+${questionDTO.id}}" href="#" class="question-edit">
+
+                <a th:if="${session.user!=null&&questionDTO.user.accountId==session.user.accountId}" th:href="@{'/publish/'+${questionDTO.id}}" href="#" class="question-edit">
                     <span class="glyphicon glyphicon-edit " aria-hidden="true"></span>
                     编辑
                 </a>
-                <hr>
+                <hr th:if="${session.user!=null&&questionDTO.user.accountId==session.user.accountId}">
+
                 <div>
                     评论区
                     ===============
