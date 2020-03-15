@@ -1,9 +1,6 @@
 package wanzhi.gulu.community.mapper;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import wanzhi.gulu.community.dto.QuestionDTO;
 import wanzhi.gulu.community.model.Question;
 
@@ -40,4 +37,10 @@ public interface QuestionMapper {
 
     @Select("select * from question where id = #{id}")
     QuestionDTO findById(@Param("id") Integer id);
+
+    @Update("update question set title=#{title},description=#{description},tag=#{tag},gmt_modified=#{gmtModified} where id = #{id}")
+    void update(Question question);
+
+    @Select("select creator from question where id = #{id}")
+    Integer findCreatorById(int id);
 }
