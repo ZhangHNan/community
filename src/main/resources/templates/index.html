@@ -21,20 +21,24 @@
                 <hr>
 
                 <div class="media" th:each="questionDTO:${pageDTO.questionDTOS}">
+
                     <div class="media-left">
-                        <a href="#">
+                        <a th:href="@{'/question/'+${questionDTO.getId()}}">
                             <img class="media-object img-rounded img-avatar" th:src="${questionDTO.user.avatarUrl}"
                                  src="../static/img/9150e4e5gy1gab4a9xjurj205h04wdfr.jpg">
                         </a>
                     </div>
                     <div class="media-body">
-                        <h4 class="media-heading" th:text="${questionDTO.title}">怎么学会java</h4>
+                        <a th:href="@{'/question/'+${questionDTO.getId()}}">
+                            <h4 class="media-heading" th:text="${questionDTO.title}">怎么学会java</h4>
+                        </a>
                         [[${questionDTO.description}]]
                         <br>
                         <span class="text-desc"> [[${questionDTO.commentCount}]] 个回复 | [[${questionDTO.viewCount}]] 次浏览 | <span
                                 th:text="${#dates.format(questionDTO.gmtCreate,'yyyy-MM-dd HH:mm')}"
                         ></span></span>
                     </div>
+
                 </div>
                 <nav>
                     <ul class="pagination">
