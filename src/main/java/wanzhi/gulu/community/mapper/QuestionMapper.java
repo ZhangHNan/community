@@ -24,11 +24,18 @@ public interface QuestionMapper {
     @Select("select * from question limit #{start},#{rows}")
     List<QuestionDTO> findByPage(@Param("start") int start, @Param("rows") Integer rows);
 
-    //这里有问题
-    @Select("SELECT COUNT(1) FROM question WHERE creator IN(SELECT id FROM USER WHERE account_id IN(SELECT account_id FROM USER WHERE id = #{id}))")
+    //多重嵌套查询，用于未修复登录问题的时候，我的问题页的分页
+//    @Select("SELECT COUNT(1) FROM question WHERE creator IN(SELECT id FROM USER WHERE account_id IN(SELECT account_id FROM USER WHERE id = #{id}))")
+//    Integer findTotalCountById(@Param("id") int id);
+
+    @Select("SELECT COUNT(1) FROM question WHERE creator = #{id}")
     Integer findTotalCountById(@Param("id") int id);
 
-    @Select("SELECT * FROM question WHERE creator IN(SELECT id FROM USER WHERE account_id IN(SELECT account_id FROM USER WHERE id = #{id})) limit #{start},#{rows}")
+    //多重嵌套查询，用于未修复登录问题的时候，我的问题页的分页
+//    @Select("SELECT * FROM question WHERE creator IN(SELECT id FROM USER WHERE account_id IN(SELECT account_id FROM USER WHERE id = #{id})) limit #{start},#{rows}")
+//    List<QuestionDTO> findByPageByCreator(@Param("start")int start,@Param("rows") int rows,@Param("id") Integer id);
+
+    @Select("SELECT * FROM question WHERE creator = #{id} limit #{start},#{rows}")
     List<QuestionDTO> findByPageByCreator(@Param("start")int start,@Param("rows") int rows,@Param("id") Integer id);
 
     @Select("select * from question where id = #{id}")
