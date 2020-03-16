@@ -10,7 +10,7 @@
     <context id="DB2Tables" targetRuntime="MyBatis3">
         <!--配置jdbc连接的-->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/community"
+                        connectionURL="jdbc:mysql://localhost:3306/community?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"
                         userId="root"
                         password="123">
         </jdbcConnection>
@@ -19,7 +19,7 @@
             <property name="forceBigDecimals" value="false" />
         </javaTypeResolver>
 
-        <javaModelGenerator targetPackage="wenzhi.gulu.community.model" targetProject="src/main/java">
+        <javaModelGenerator targetPackage="wanzhi.gulu.community.model" targetProject="src/main/java">
             <!--true:mybatis会根据路径（targetProject）生成子包-->
             <property name="enableSubPackages" value="true" />
             <property name="trimStrings" value="true" />
