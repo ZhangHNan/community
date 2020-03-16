@@ -39,8 +39,6 @@ public class PublishController {
         return "publish";
     }
 
-
-
     //到编辑页面（同发布页面）
     @GetMapping("/publish/{id}")
     public String edit(@PathVariable("id") int id,
