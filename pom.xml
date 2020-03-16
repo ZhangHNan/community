@@ -53,7 +53,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.45</version>
+            <version>8.0.19</version>
         </dependency>
 
         <!--引入jdbcStarter可以使用springboot默认的连接池-->
@@ -117,7 +117,7 @@
                     <dependency>
                         <groupId>mysql</groupId>
                         <artifactId>mysql-connector-java</artifactId>
-                        <version>5.1.45</version>
+                        <version>8.0.19</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -136,7 +136,7 @@
                     <dependency>
                         <groupId>mysql</groupId>
                         <artifactId>mysql-connector-java</artifactId>
-                        <version>5.1.45</version>
+                        <version>8.0.19</version>
                     </dependency>
                 </dependencies>
             </plugin>
