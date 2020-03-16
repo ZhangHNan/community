@@ -12,6 +12,7 @@ import wanzhi.gulu.community.mapper.QuestionMapper;
 import wanzhi.gulu.community.mapper.UserMapper;
 import wanzhi.gulu.community.model.Question;
 import wanzhi.gulu.community.model.User;
+import wanzhi.gulu.community.service.QuestionService;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,9 @@ public class PublishController {
 
     @Autowired
     QuestionMapper questionMapper;
+
+    @Autowired
+    QuestionService questionService;
 
     @Autowired
     UserMapper userMapper;
@@ -35,64 +39,7 @@ public class PublishController {
         return "publish";
     }
 
-    //发布功能
-    @PostMapping("/publish")
-    public String doPublish(Question question,
-                            HttpServletRequest request,//用于获取cookies
-                            Model model//用于传递信息
-    ){
-        if (question.getTitle()==null||question.getTitle().equals("")){
-            model.addAttribute("error","标题不能为空");
-            model.addAttribute("title",question.getTitle());
-            model.addAttribute("description",question.getDescription());
-            model.addAttribute("tag",question.getTag());
-            return "publish";
-        }
-        if (question.getDescription()==null||question.getDescription().equals("")){
-            model.addAttribute("error","内容不能为空");
-            model.addAttribute("title",question.getTitle());
-            model.addAttribute("description",question.getDescription());
-            model.addAttribute("tag",question.getTag());
-            return "publish";
-        }
-        if (question.getTag()==null||question.getTag().equals("")){
-            model.addAttribute("error","标签不能为空");
-            model.addAttribute("title",question.getTitle());
-            model.addAttribute("description",question.getDescription());
-            model.addAttribute("tag",question.getTag());
-            return "publish";
-        }
-        User user=null; //下面要判断这个对象是不是null，此处不能用new User(),这样user就不是null了
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {//用户关闭浏览器后cookie可能清空，cookies为null执行下面遍历就会出现空指针异常
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")) {
-                    String token = cookie.getValue();
-                    user = userMapper.findByToken(token);
-                    if (user!=null){//防止出现用户浏览器未关，服务器就删除数据库的情况下还能正常运行（保证下面user.getId()能返回值）
-                    question.setCreator(user.getId());
-                    question.setGmtCreate(System.currentTimeMillis());
-                    question.setGmtModified(question.getGmtCreate());
-                    }
-                    break;
-                }
-            }
-        }
-        if(user == null){
-            model.addAttribute("error","用户未登录");
-            //未登录时发帖页面的回调
-            model.addAttribute("title",question.getTitle());
-            model.addAttribute("description",question.getDescription());
-            model.addAttribute("tag",question.getTag());
-//            System.out.println("未登录！");
-            loginCheck.check(cookies,request);
-//            System.out.println("question:"+question);
-            return "publish";//要使用model传值就不能重定向
-        }
-        questionMapper.create(question);
-//        System.out.println("question:"+question);
-        return "redirect:/";
-    }
+
 
     //到编辑页面（同发布页面）
     @GetMapping("/publish/{id}")
@@ -112,31 +59,33 @@ public class PublishController {
         model.addAttribute("title",question.getTitle());
         model.addAttribute("description",question.getDescription());
         model.addAttribute("tag",question.getTag());
-        model.addAttribute("questionId",id);
+        model.addAttribute("id",id);
         return "publish";
     }
 
-    //编辑完成，重新发布
-    @PostMapping("/publish/{id}")
+    //发布功能 或者 编辑完成，重新发布
+    @PostMapping("/publish")
     public String doEdit(Question question,
-                         @PathVariable("id") Integer id,
                          HttpServletRequest request,//用于获取cookies
                          Model model//用于传递信息
     ){
-        //判断执行这个请求的是否是本人（登录的人）
-        User sessionUser = (User)request.getSession().getAttribute("user");
-        Integer creator = questionMapper.findCreatorById(id);
-        if(!sessionUser.getId().equals(creator)){
-            //如果不是本人操作直接返回首页
-            return "redirect:/index";
+        if(question.getId()!=null){//如果是修改操作，需先进行登录校验
+            //判断执行这个请求的是否是本人（登录的人）
+            User sessionUser = (User)request.getSession().getAttribute("user");
+            Integer creator = questionMapper.findCreatorById(question.getId());
+            if(!sessionUser.getId().equals(creator)){
+                //如果不是本人操作直接返回首页
+                return "redirect:/index";
+            }
         }
+
         //安全校验通过，执行修改逻辑
         if (question.getTitle()==null||question.getTitle().equals("")){
             model.addAttribute("error","标题不能为空");
             model.addAttribute("title",question.getTitle());
             model.addAttribute("description",question.getDescription());
             model.addAttribute("tag",question.getTag());
-            model.addAttribute("questionId",id);
+            model.addAttribute("id",question.getId());
             return "publish";
         }
         if (question.getDescription()==null||question.getDescription().equals("")){
@@ -144,7 +93,7 @@ public class PublishController {
             model.addAttribute("title",question.getTitle());
             model.addAttribute("description",question.getDescription());
             model.addAttribute("tag",question.getTag());
-            model.addAttribute("questionId",id);
+            model.addAttribute("id",question.getId());
             return "publish";
         }
         if (question.getTag()==null||question.getTag().equals("")){
@@ -152,7 +101,7 @@ public class PublishController {
             model.addAttribute("title",question.getTitle());
             model.addAttribute("description",question.getDescription());
             model.addAttribute("tag",question.getTag());
-            model.addAttribute("questionId",id);
+            model.addAttribute("id",question.getId());
             return "publish";
         }
         User user=null; //下面要判断这个对象是不是null，此处不能用new User(),这样user就不是null了
@@ -163,7 +112,8 @@ public class PublishController {
                     String token = cookie.getValue();
                     user = userMapper.findByToken(token);
                     if (user!=null){//防止出现用户浏览器未关，服务器就删除数据库的情况下还能正常运行（保证下面user.getId()能返回值）
-                        question.setId(id);
+                        question.setId(question.getId());
+                        question.setCreator(user.getId());
                         question.setGmtModified(System.currentTimeMillis());
                     }
                     break;
@@ -176,13 +126,13 @@ public class PublishController {
             model.addAttribute("title",question.getTitle());
             model.addAttribute("description",question.getDescription());
             model.addAttribute("tag",question.getTag());
-            model.addAttribute("questionId",id);
+            model.addAttribute("questionId",question.getId());
 //            System.out.println("未登录！");
             loginCheck.check(cookies,request);
 //            System.out.println("question:"+question);
             return "publish";//要使用model传值就不能重定向
         }
-        questionMapper.update(question);
+        questionService.updateOrCreate(question);
 //        System.out.println("question:"+question);
         return "redirect:/";
     }

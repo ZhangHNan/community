@@ -21,14 +21,36 @@
                 <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 发起</h2>
                 <hr>
                 <!--第一次发帖时要提交的表单-->
-                <form th:if="${questionId==null}" th:action="@{/publish}" action="/publish" method="post" >
+                <form th:action="@{/publish}" action="/publish" method="post" >
                 <!--<form th:action="@{'/publish/'+${questionId}}" action="/publish" method="post" >-->
                     <!--两个相同的片段而且有id，将它抽取为公共片段-->
-                    <div th:insert="~{questionForm :: form}"></div>
-                </form>
-                <!--重新编辑时要提交的表单-->
-                <form th:if="${questionId!=null}" th:action="@{'/publish/'+${questionId}}" action="/publish" method="post" >
-                    <div th:insert="~{questionForm :: form}"></div>
+                    <div class="form-group">
+                        <input type="hidden" name="id" th:value="${id}">
+                        <label for="title">问题标题（简单扼要）</label>
+                        <input th:value="${title}" type="text" class="form-control" id="title" name="title"
+                               placeholder="问题标题……"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">问题补充（必填，请参照右侧提示）：</label>
+                        <textarea th:text="${description}" name="description" id="description" class="form-control"
+                                  cols="30" rows="10"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="tag">添加标签：</label>
+                        <input th:value="${tag}" type="text" class="form-control" id="tag" name="tag"
+                               placeholder="输入标签，以，号分隔"/>
+                    </div>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-lg-9 col-md-12 col-xs-12">
+                                <div class="msg-error-div"><span th:text="${error}" th:if="${error!=null}"
+                                                                 class="alert alert-danger msg-error">警告：测试警告！</span></div>
+                            </div>
+                            <div class="col-lg-3 col-md-12 col-xs-12">
+                                <button type="submit" class="btn btn-success btn-sbm">发布</button>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="col-lg-3 col-md-12 col-xs-12 right-bar">

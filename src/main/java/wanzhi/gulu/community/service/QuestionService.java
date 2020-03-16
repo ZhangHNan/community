@@ -7,6 +7,7 @@ import wanzhi.gulu.community.dto.PageDTO;
 import wanzhi.gulu.community.dto.QuestionDTO;
 import wanzhi.gulu.community.mapper.QuestionMapper;
 import wanzhi.gulu.community.mapper.UserMapper;
+import wanzhi.gulu.community.model.Question;
 import wanzhi.gulu.community.model.User;
 import wanzhi.gulu.community.util.PageUtils;
 
@@ -52,5 +53,14 @@ public class QuestionService {
         User user = userMapper.findById(questionDTO.getCreator());
         questionDTO.setUser(user);
         return questionDTO;
+    }
+
+
+    public void updateOrCreate(Question question) {
+        if(question.getId()==null){
+            questionMapper.create(question);
+        }else {
+            questionMapper.update(question);
+        }
     }
 }
