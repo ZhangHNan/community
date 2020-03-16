@@ -56,6 +56,7 @@ public class QuestionService {
     }
 
 
+    //更新或创建帖子
     public void updateOrCreate(Question question) {
         if(question.getId()==null){
             questionMapper.create(question);
