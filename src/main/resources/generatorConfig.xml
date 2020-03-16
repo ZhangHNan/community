@@ -13,13 +13,15 @@
                         connectionURL="jdbc:mysql://localhost:3306/community?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"
                         userId="root"
                         password="123">
+            <!--防止生成其他数据库同名表-->
+            <property name="nullCatalogMeansCurrent" value="true"/>
         </jdbcConnection>
 
         <javaTypeResolver >
             <property name="forceBigDecimals" value="false" />
         </javaTypeResolver>
 
-        <javaModelGenerator targetPackage="wanzhi.gulu.community.model" targetProject="src/main/java">
+        <javaModelGenerator targetPackage="wenzhi.gulu.community.model" targetProject="src/main/java">
             <!--true:mybatis会根据路径（targetProject）生成子包-->
             <property name="enableSubPackages" value="true" />
             <property name="trimStrings" value="true" />
@@ -34,6 +36,14 @@
         </javaClientGenerator>
 
         <table tableName="user" domainObjectName="User" >
+            <!--<property name="useActualColumnNames" value="false"/>-->
+            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
+            <!--<columnOverride column="DATE_FIELD" property="startDate" />-->
+            <!--<ignoreColumn column="FRED" />-->
+            <!--<columnOverride column="LONG_VARCHAR_FIELD" jdbcType="VARCHAR" />-->
+        </table>
+
+        <table tableName="question" domainObjectName="Question" >
             <!--<property name="useActualColumnNames" value="false"/>-->
             <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
             <!--<columnOverride column="DATE_FIELD" property="startDate" />-->
