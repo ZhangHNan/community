@@ -1,11 +1,15 @@
 package wanzhi.gulu.community.util;
 
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import wanzhi.gulu.community.dto.PageDTO;
 import wanzhi.gulu.community.dto.QuestionDTO;
 import wanzhi.gulu.community.mapper.QuestionMapper;
 import wanzhi.gulu.community.mapper.UserMapper;
+import wanzhi.gulu.community.model.Question;
+import wanzhi.gulu.community.model.QuestionExample;
 import wanzhi.gulu.community.model.User;
 
 import java.util.ArrayList;
@@ -37,10 +41,15 @@ public class PageUtils {
         Integer totalCount = 0;
         if (id == null) {
             //查询所有帖子总数
-            totalCount = questionMapper.findTotalCount();
+//            totalCount = questionMapper.findTotalCount();
+            totalCount = questionMapper.countByExample(new QuestionExample());
         } else {
             //根据创建者来查询帖子总数
-            totalCount = questionMapper.findTotalCountById(id);
+//            totalCount = questionMapper.findTotalCountById(id);
+            QuestionExample example = new QuestionExample();
+            example.createCriteria()
+                    .andCreatorEqualTo(id);
+            totalCount = questionMapper.countByExample(example);
         }
         pageDTO.setTotalCount(totalCount);
 
@@ -60,17 +69,29 @@ public class PageUtils {
         pageDTO = judgeShow(pageDTO);
 
         //分页查询帖子（需要传入开始索引和显示行数）
-        List<QuestionDTO> questionDTOs = null;
+        List<QuestionDTO> questionDTOs = new ArrayList<>();
+        List<Question> questions= new ArrayList<>();
         if (id == null) {
             //分页查询所有帖子
-            questionDTOs = questionMapper.findByPage(start, rows);
+//            questionDTOs = questionMapper.findByPage(start, rows);
+            questions = questionMapper.selectByExampleWithRowbounds(new QuestionExample(), new RowBounds(start, rows));
         } else {
             //根据创建者来分页查询帖子
-            questionDTOs = questionMapper.findByPageByCreator(start, rows, id);
+//            questionDTOs = questionMapper.findByPageByCreator(start, rows, id);
+            QuestionExample example = new QuestionExample();
+            example.createCriteria()
+                    .andCreatorEqualTo(id);
+            questions = questionMapper.selectByExampleWithRowbounds(example, new RowBounds(start, rows));
+        }
+        for(Question question:questions){
+            QuestionDTO questionDTO = new QuestionDTO();
+            BeanUtils.copyProperties(question,questionDTO);
+            questionDTOs.add(questionDTO);
         }
 
         for (QuestionDTO questionDTO : questionDTOs) {
-            User user = userMapper.findById(questionDTO.getCreator());
+//            User user = userMapper.findById(questionDTO.getCreator());
+            User user = userMapper.selectByPrimaryKey(questionDTO.getCreator());
             questionDTO.setUser(user);
         }
         //将查询出来的帖子赋给PageDTO

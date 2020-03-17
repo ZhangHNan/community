@@ -8,11 +8,16 @@
     <!--<classPathEntry location="/Program Files/IBM/SQLLIB/java/db2java.zip" />-->
 
     <context id="DB2Tables" targetRuntime="MyBatis3">
+
+        <!--分页插件-->
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
         <!--配置jdbc连接的-->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
                         connectionURL="jdbc:mysql://localhost:3306/community?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"
                         userId="root"
                         password="123">
+            <!--防止生成其他数据库同名表-->
+            <property name="nullCatalogMeansCurrent" value="true"/>
         </jdbcConnection>
 
         <javaTypeResolver >
@@ -29,11 +34,19 @@
             <property name="enableSubPackages" value="true" />
         </sqlMapGenerator>
 
-        <javaClientGenerator type="XMLMAPPER" targetPackage="wenzhi.gulu.community.mapper"  targetProject="src/main/java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="wanzhi.gulu.community.mapper"  targetProject="src/main/java">
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 
         <table tableName="user" domainObjectName="User" >
+            <!--<property name="useActualColumnNames" value="false"/>-->
+            <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
+            <!--<columnOverride column="DATE_FIELD" property="startDate" />-->
+            <!--<ignoreColumn column="FRED" />-->
+            <!--<columnOverride column="LONG_VARCHAR_FIELD" jdbcType="VARCHAR" />-->
+        </table>
+
+        <table tableName="question" domainObjectName="Question" >
             <!--<property name="useActualColumnNames" value="false"/>-->
             <!--<generatedKey column="ID" sqlStatement="MySql" identity="true" />-->
             <!--<columnOverride column="DATE_FIELD" property="startDate" />-->

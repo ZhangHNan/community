@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import wanzhi.gulu.community.mapper.UserMapper;
 import wanzhi.gulu.community.model.User;
+import wanzhi.gulu.community.model.UserExample;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * 抽取登录状态检查的重复代码
@@ -28,8 +30,18 @@ public class LoginCheck {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("token")) {
                     String token = cookie.getValue();
-                    User user = userMapper.findByToken(token);
-                    request.getSession().setAttribute("user", user);
+                    //token查User
+                    UserExample userExample = new UserExample();
+                    //使用这种方法拼接sql
+                    userExample.createCriteria()
+                            .andTokenEqualTo(token);
+                    //注意修改后返回的是List，不可以判断null，应该判断size=o
+                    List<User> users = userMapper.selectByExample(userExample);
+//                    User user = userMapper.findByToken(token);
+                    if(users.size()!=0){
+                        User user = users.get(0);
+                        request.getSession().setAttribute("user", user);
+                    }
                     break;
                 }
             }

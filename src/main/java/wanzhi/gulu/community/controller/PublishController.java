@@ -12,10 +12,12 @@ import wanzhi.gulu.community.mapper.QuestionMapper;
 import wanzhi.gulu.community.mapper.UserMapper;
 import wanzhi.gulu.community.model.Question;
 import wanzhi.gulu.community.model.User;
+import wanzhi.gulu.community.model.UserExample;
 import wanzhi.gulu.community.service.QuestionService;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class PublishController {
@@ -46,13 +48,17 @@ public class PublishController {
                        Model model){
         //判断执行这个请求的是否是本人（登录的人）
         User sessionUser = (User)request.getSession().getAttribute("user");
-        Integer creator = questionMapper.findCreatorById(id);
+//        Integer creator = questionMapper.findCreatorById(id);
+        Question question1 = questionMapper.selectByPrimaryKey(id);
+        Integer creator = question1.getCreator();
+
         if(!sessionUser.getId().equals(creator)){
             //如果不是本人操作直接返回首页
             return "redirect:/index";
         }
         //安全校验通过，查询信息并返回
-        QuestionDTO question = questionMapper.findById(id);
+//        QuestionDTO question = questionMapper.findById(id);
+        Question question = questionMapper.selectByPrimaryKey(id);
         //用于页面回显
         model.addAttribute("title",question.getTitle());
         model.addAttribute("description",question.getDescription());
@@ -70,7 +76,9 @@ public class PublishController {
         if(question.getId()!=null){//如果是修改操作，需先进行登录校验
             //判断执行这个请求的是否是本人（登录的人）
             User sessionUser = (User)request.getSession().getAttribute("user");
-            Integer creator = questionMapper.findCreatorById(question.getId());
+//            Integer creator = questionMapper.findCreatorById(question.getId());
+            Question question1 = questionMapper.selectByPrimaryKey(question.getId());
+            Integer creator = question1.getCreator();
             if(!sessionUser.getId().equals(creator)){
                 //如果不是本人操作直接返回首页
                 return "redirect:/index";
@@ -108,8 +116,15 @@ public class PublishController {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("token")) {
                     String token = cookie.getValue();
-                    user = userMapper.findByToken(token);
-                    if (user!=null){//防止出现用户浏览器未关，服务器就删除数据库的情况下还能正常运行（保证下面user.getId()能返回值）
+//                    user = userMapper.findByToken(token);
+                    //token查User
+                    UserExample userExample = new UserExample();
+                    //使用这种方法拼接sql
+                    userExample.createCriteria()
+                            .andTokenEqualTo(token);
+                    List<User> users = userMapper.selectByExample(userExample);
+                    if (users.size()!=0){//防止出现用户浏览器未关，服务器就删除数据库的情况下还能正常运行（保证下面user.getId()能返回值）
+                        user = users.get(0);
                         question.setId(question.getId());
                         question.setCreator(user.getId());
                         question.setGmtModified(System.currentTimeMillis());

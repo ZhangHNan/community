@@ -1,5 +1,7 @@
 package wanzhi.gulu.community.service;
 
+import ch.qos.logback.core.joran.util.beans.BeanUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -8,6 +10,7 @@ import wanzhi.gulu.community.dto.QuestionDTO;
 import wanzhi.gulu.community.mapper.QuestionMapper;
 import wanzhi.gulu.community.mapper.UserMapper;
 import wanzhi.gulu.community.model.Question;
+import wanzhi.gulu.community.model.QuestionExample;
 import wanzhi.gulu.community.model.User;
 import wanzhi.gulu.community.util.PageUtils;
 
@@ -49,8 +52,12 @@ public class QuestionService {
     }
 
     public QuestionDTO findQuestionById(Integer id) {
-        QuestionDTO questionDTO = questionMapper.findById(id);
-        User user = userMapper.findById(questionDTO.getCreator());
+//        QuestionDTO questionDTO = questionMapper.findById(id);
+        Question question = questionMapper.selectByPrimaryKey(id);
+        QuestionDTO questionDTO=new QuestionDTO();
+        BeanUtils.copyProperties(question,questionDTO);
+//        User user = userMapper.findById(questionDTO.getCreator());
+        User user = userMapper.selectByPrimaryKey(questionDTO.getCreator());
         questionDTO.setUser(user);
         return questionDTO;
     }
@@ -59,9 +66,15 @@ public class QuestionService {
     //更新或创建帖子
     public void updateOrCreate(Question question) {
         if(question.getId()==null){
-            questionMapper.create(question);
+//            questionMapper.create(question);
+            question.setGmtCreate(question.getGmtModified());
+            questionMapper.insert(question);
         }else {
-            questionMapper.update(question);
+//            questionMapper.update(question);
+            QuestionExample questionExample = new QuestionExample();
+            questionExample.createCriteria()
+                    .andIdEqualTo(question.getId());
+            questionMapper.updateByExampleSelective(question, questionExample);
         }
     }
 }
