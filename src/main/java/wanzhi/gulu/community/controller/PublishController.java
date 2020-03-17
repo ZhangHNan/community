@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import wanzhi.gulu.community.check.LoginCheck;
 import wanzhi.gulu.community.dto.QuestionDTO;
+import wanzhi.gulu.community.exception.CustomizeErrorCode;
 import wanzhi.gulu.community.exception.CustomizeException;
 import wanzhi.gulu.community.mapper.QuestionMapper;
 import wanzhi.gulu.community.mapper.UserMapper;
@@ -55,7 +56,7 @@ public class PublishController {
 
         if(!sessionUser.getId().equals(creator)){
             //不是本人操作直接抛自定义异常
-            throw new CustomizeException("您没有这个权限！");
+            throw new CustomizeException(CustomizeErrorCode.PERMISSION_DENIED);
             //如果不是本人操作直接返回首页
 //            return "redirect:/index";
         }
@@ -84,7 +85,7 @@ public class PublishController {
             Integer creator = question1.getCreator();
             if(!sessionUser.getId().equals(creator)){
                 //不是本人操作直接抛自定义异常
-                throw new CustomizeException("您没有这个权限！");
+                throw new CustomizeException(CustomizeErrorCode.PERMISSION_DENIED);
                 //如果不是本人操作直接返回首页
 //                return "redirect:/index";
             }

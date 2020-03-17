@@ -8,8 +8,8 @@ package wanzhi.gulu.community.exception;
 public class CustomizeException extends RuntimeException {
     private String message;
 
-    public CustomizeException(String message){//使用这个自定义异常需要传入自定的异常message
-        this.message=message;
+    public CustomizeException(CustomizeErrorCode customizeErrorCode){//使用这个自定义异常需要传入自定的异常message
+        this.message=customizeErrorCode.getMassage();
     }
 
     public String getMessage(){

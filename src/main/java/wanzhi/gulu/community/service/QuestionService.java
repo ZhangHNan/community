@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import wanzhi.gulu.community.dto.PageDTO;
 import wanzhi.gulu.community.dto.QuestionDTO;
+import wanzhi.gulu.community.exception.CustomizeErrorCode;
 import wanzhi.gulu.community.exception.CustomizeException;
 import wanzhi.gulu.community.mapper.QuestionMapper;
 import wanzhi.gulu.community.mapper.UserMapper;
@@ -56,7 +57,7 @@ public class QuestionService {
 //        QuestionDTO questionDTO = questionMapper.findById(id);
         Question question = questionMapper.selectByPrimaryKey(id);
         if(question==null){//如果查询一个没有的帖子，抛一个自定义的异常
-            throw new CustomizeException("你找的问题不在了，要不要换个试试？");
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
         }
         QuestionDTO questionDTO=new QuestionDTO();
         BeanUtils.copyProperties(question,questionDTO);

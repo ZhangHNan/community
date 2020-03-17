@@ -10,7 +10,7 @@ import wanzhi.gulu.community.exception.CustomizeException;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * 自定义异常处理器
+ * 自定义异常处理器 ：用于处理上下文异常
  *     要用@ControllerAdvice注解
  */
 @ControllerAdvice
@@ -32,6 +32,7 @@ public class CustomizeExceptionHandler {
         return new ModelAndView("error");
     }
 
+    //获取状态码的方法
     private HttpStatus getStatus(HttpServletRequest request){
         //获取异常状态码
         Integer statusCode = (Integer)request.getAttribute("javax.servlet.error.status_code");
