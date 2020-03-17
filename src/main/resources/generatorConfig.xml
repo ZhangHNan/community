@@ -24,7 +24,7 @@
             <property name="forceBigDecimals" value="false" />
         </javaTypeResolver>
 
-        <javaModelGenerator targetPackage="wanzhi.gulu.community.model" targetProject="src/main/java">
+        <javaModelGenerator targetPackage="wenzhi.gulu.community.model" targetProject="src/main/java">
             <!--true:mybatis会根据路径（targetProject）生成子包-->
             <property name="enableSubPackages" value="true" />
             <property name="trimStrings" value="true" />
