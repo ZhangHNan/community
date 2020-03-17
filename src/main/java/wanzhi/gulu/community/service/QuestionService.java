@@ -9,6 +9,7 @@ import wanzhi.gulu.community.dto.PageDTO;
 import wanzhi.gulu.community.dto.QuestionDTO;
 import wanzhi.gulu.community.exception.CustomizeErrorCode;
 import wanzhi.gulu.community.exception.CustomizeException;
+import wanzhi.gulu.community.mapper.QuestionExtMapper;
 import wanzhi.gulu.community.mapper.QuestionMapper;
 import wanzhi.gulu.community.mapper.UserMapper;
 import wanzhi.gulu.community.model.Question;
@@ -26,6 +27,9 @@ public class QuestionService {
 
     @Autowired
     QuestionMapper questionMapper;
+
+    @Autowired
+    QuestionExtMapper questionExtMapper;
 
     @Autowired
     PageUtils pageUtils;
@@ -81,5 +85,19 @@ public class QuestionService {
                     .andIdEqualTo(question.getId());
             questionMapper.updateByExampleSelective(question, questionExample);
         }
+    }
+
+    public void incView(Integer id) {
+//        Question question = questionMapper.selectByPrimaryKey(id);
+//        Question updateQuestion = new Question();
+//        updateQuestion.setViewCount(question.getViewCount()+1);
+//        QuestionExample example = new QuestionExample();
+//        example.createCriteria()
+//                .andIdEqualTo(id);
+//        questionMapper.updateByExampleSelective(updateQuestion, example);
+        Question updateQuestion = new Question();
+        updateQuestion.setId(id);
+        updateQuestion.setViewCount(1);
+        questionExtMapper.incView(updateQuestion);
     }
 }

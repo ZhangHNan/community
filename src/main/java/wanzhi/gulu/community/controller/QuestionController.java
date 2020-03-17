@@ -20,6 +20,8 @@ public class QuestionController {
     public String question(@PathVariable("id") Integer id,
                            Model model){
         QuestionDTO questionDTO = questionService.findQuestionById(id);
+        //累计阅读数
+        questionService.incView(id);
         model.addAttribute("questionDTO",questionDTO);
         return "question";
     }
