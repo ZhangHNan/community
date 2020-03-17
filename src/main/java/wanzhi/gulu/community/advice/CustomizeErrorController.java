@@ -15,7 +15,7 @@ import java.util.Map;
 
 /**
  * 如果访问不存在的地址，异常message是空的，默认将message设置为 No message available
- * 自定义ErrorController 自定义错误控制器 ：用于处理请求错误：4xx、5xx
+ * 自定义ErrorController 自定义错误控制器 ：用于处理请求错误，请求还没有进来：4xx、5xx
  */
 @Controller
 @RequestMapping("${server.error.path:${error.path:/error}}")//就是@RequestMapping("error")
