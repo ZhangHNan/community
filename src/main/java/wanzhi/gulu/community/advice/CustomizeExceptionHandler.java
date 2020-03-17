@@ -10,7 +10,7 @@ import wanzhi.gulu.community.exception.CustomizeException;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * 自定义异常处理器 ：用于处理上下文异常
+ * 自定义异常处理器 ：用于处理上下文异常,即请求进来了但代码中出的异常
  *     要用@ControllerAdvice注解
  */
 @ControllerAdvice
