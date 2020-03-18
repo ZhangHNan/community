@@ -23,17 +23,18 @@ public class CommentController {
     public Object post(@RequestBody CommentDTO commentDTO,
                        HttpServletRequest request){
         Comment comment = new Comment();
-        comment.setParentId(commentDTO.getParentId());//注意这个ParentId可能不存在
-        comment.setContent(commentDTO.getContent());
-        comment.setType(commentDTO.getType());
-        comment.setGmtModified(System.currentTimeMillis());
-        comment.setGmtCreate(comment.getGmtModified());
         User user = (User)request.getSession().getAttribute("user");
         if (user != null) {
             comment.setCommentator(user.getId());
         }else{
+            //用户未登录
             comment.setCommentator(999);
         }
+        comment.setParentId(commentDTO.getParentId());//注意这个ParentId可能不存在：发帖用户已删除
+        comment.setContent(commentDTO.getContent());
+        comment.setType(commentDTO.getType());
+        comment.setGmtModified(System.currentTimeMillis());
+        comment.setGmtCreate(comment.getGmtModified());
         comment.setLikeCount(0L);
         commentMapper.insert(comment);
         return null;
