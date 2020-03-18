@@ -4,13 +4,13 @@ public enum CommentTypeEnum {
     QUESTION(1),
     COMMENT(2);
 
-    private Integer type;
+    private int type;
 
-    CommentTypeEnum(Integer type) {
+    CommentTypeEnum(int type) {
         this.type = type;
     }
 
-    public static boolean isExist(Integer type) {
+    public static boolean isExist(int type) {
         for(CommentTypeEnum commentTypeEnum:CommentTypeEnum.values()){
             if(commentTypeEnum.getType()==type){
                 return true;
@@ -19,7 +19,7 @@ public enum CommentTypeEnum {
         return false;
     }
 
-    public Integer getType() {
+    public int getType() {
         return type;
     }
 }
