@@ -35,7 +35,8 @@ public class CommentController {
         }else{
             //用户未登录
 //            comment.setCommentator(999);
-            throw new CustomizeException(CustomizeErrorCode.LOGIN_NOT_FOUND);
+//            throw new CustomizeException(CustomizeErrorCode.LOGIN_NOT_FOUND);
+            return CommentResultDTO.errorOf(CustomizeErrorCode.LOGIN_NOT_FOUND);
         }
         comment.setParentId(commentDTO.getParentId());//注意这个ParentId可能不存在：发帖用户已删除
         comment.setType(commentDTO.getType());
@@ -44,8 +45,8 @@ public class CommentController {
         comment.setGmtCreate(comment.getGmtModified());
         comment.setLikeCount(0L);
         commentService.insert(comment);
-        Map<Object,Object> objectObjectMap = new HashMap<>();
-        objectObjectMap.put("message","成功");
-        return objectObjectMap;
+//        Map<Object,Object> objectObjectMap = new HashMap<>();
+//        objectObjectMap.put("message","成功");
+        return CommentResultDTO.okOf();
     }
 }

@@ -32,7 +32,7 @@ public class PageUtils {
         return autoStructurePageDTOByCreator(currentPage, rows, buttonCount, null);
     }
 
-    public PageDTO autoStructurePageDTOByCreator(int currentPage, int rows, int buttonCount, Integer id) {
+    public PageDTO autoStructurePageDTOByCreator(int currentPage, int rows, int buttonCount, Long id) {
         PageDTO pageDTO = new PageDTO();
         pageDTO.setCurrentPage(currentPage);
         pageDTO.setRows(rows);

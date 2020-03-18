@@ -53,11 +53,11 @@ public class QuestionService {
         return pageUtils.autoStructurePageDTO(currentPage, Integer.parseInt(indexRows), Integer.parseInt(indexButtonCount));
     }
 
-    public PageDTO findPageByCreator(Integer currentPage, Integer id) {
+    public PageDTO findPageByCreator(Integer currentPage, Long id) {
         return pageUtils.autoStructurePageDTOByCreator(currentPage, Integer.parseInt(questionRows), Integer.parseInt(questionButtonCount), id);
     }
 
-    public QuestionDTO findQuestionById(Integer id) {
+    public QuestionDTO findQuestionById(Long id) {
 //        QuestionDTO questionDTO = questionMapper.findById(id);
         Question question = questionMapper.selectByPrimaryKey(id);
         if(question==null){//如果查询一个没有的帖子，抛一个自定义的异常
@@ -77,7 +77,7 @@ public class QuestionService {
         if(question.getId()==null){
 //            questionMapper.create(question);
             question.setGmtCreate(question.getGmtModified());
-            questionMapper.insert(question);
+            questionMapper.insertSelective(question);
         }else {
 //            questionMapper.update(question);
             QuestionExample questionExample = new QuestionExample();
@@ -87,7 +87,7 @@ public class QuestionService {
         }
     }
 
-    public void incView(Integer id) {
+    public void incView(Long id) {
 //        Question question = questionMapper.selectByPrimaryKey(id);
 //        Question updateQuestion = new Question();
 //        updateQuestion.setViewCount(question.getViewCount()+1);

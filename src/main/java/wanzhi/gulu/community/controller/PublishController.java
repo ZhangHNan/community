@@ -45,14 +45,14 @@ public class PublishController {
 
     //到编辑页面（同发布页面）
     @GetMapping("/publish/{id}")
-    public String edit(@PathVariable("id") int id,
+    public String edit(@PathVariable("id") long id,
                        HttpServletRequest request,
                        Model model){
         //判断执行这个请求的是否是本人（登录的人）
         User sessionUser = (User)request.getSession().getAttribute("user");
 //        Integer creator = questionMapper.findCreatorById(id);
         Question question1 = questionMapper.selectByPrimaryKey(id);
-        Integer creator = question1.getCreator();
+        Long creator = question1.getCreator();
 
         if(!sessionUser.getId().equals(creator)){
             //不是本人操作直接抛自定义异常
@@ -82,7 +82,7 @@ public class PublishController {
             User sessionUser = (User)request.getSession().getAttribute("user");
 //            Integer creator = questionMapper.findCreatorById(question.getId());
             Question question1 = questionMapper.selectByPrimaryKey(question.getId());
-            Integer creator = question1.getCreator();
+            Long creator = question1.getCreator();
             if(!sessionUser.getId().equals(creator)){
                 //不是本人操作直接抛自定义异常
                 throw new CustomizeException(CustomizeErrorCode.PERMISSION_DENIED);
