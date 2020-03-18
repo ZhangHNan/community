@@ -1,5 +1,6 @@
 .main{
     margin: 30px;
+    padding: 0 15px 15px 15px;
     background-color: white;
 }
 
@@ -23,4 +24,10 @@ body{
 }
 .question-edit{
     color:#999;
+}
+.comment{
+    margin: 10px 5px;
+}
+.btn-comment{
+    float: right;
 }
