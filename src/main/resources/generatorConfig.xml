@@ -17,7 +17,7 @@
                         connectionURL="jdbc:mysql://localhost:3306/community?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"
                         userId="root"
                         password="123">
-            <!--防止生成其他数据库同名表-->
+            <!--防止生成其他数据库同名表，这个必加，不然生成的文件或多或少有点问题-->
             <property name="nullCatalogMeansCurrent" value="true"/>
         </jdbcConnection>
 
