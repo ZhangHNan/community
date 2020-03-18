@@ -10,6 +10,16 @@
     <link rel="stylesheet" href="../static/css/bootstrap-theme.min.css" th:href="@{/css/bootstrap-theme.min.css}">
     <link rel="stylesheet" href="../static/css/index.css" th:href="@{/css/index.css}">
 </head>
+<script type="application/javascript">
+    window.onload =function () {
+        var closable = window.localStorage.getItem("closable");
+        if(closable == "true"){
+            window.localStorage.removeItem("closable");
+            // window.location.href="about:blank"; 如果浏览器页面不能自动关闭，加上这个试试
+            window.close();
+        }
+    }
+</script>
 <body>
 <div th:insert="~{navigation :: nav}"></div>
 <div>
