@@ -6,17 +6,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import wanzhi.gulu.community.dto.CommentDTO;
+import wanzhi.gulu.community.dto.CommentResultDTO;
+import wanzhi.gulu.community.exception.CustomizeErrorCode;
+import wanzhi.gulu.community.exception.CustomizeException;
 import wanzhi.gulu.community.mapper.CommentMapper;
 import wanzhi.gulu.community.model.Comment;
 import wanzhi.gulu.community.model.User;
+import wanzhi.gulu.community.service.CommentService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class CommentController {
 
     @Autowired
-    CommentMapper commentMapper;
+    CommentService commentService;
 
     @ResponseBody
     @PostMapping("/comment")
@@ -28,15 +34,18 @@ public class CommentController {
             comment.setCommentator(user.getId());
         }else{
             //用户未登录
-            comment.setCommentator(999);
+//            comment.setCommentator(999);
+            throw new CustomizeException(CustomizeErrorCode.LOGIN_NOT_FOUND);
         }
         comment.setParentId(commentDTO.getParentId());//注意这个ParentId可能不存在：发帖用户已删除
-        comment.setContent(commentDTO.getContent());
         comment.setType(commentDTO.getType());
+        comment.setContent(commentDTO.getContent());
         comment.setGmtModified(System.currentTimeMillis());
         comment.setGmtCreate(comment.getGmtModified());
         comment.setLikeCount(0L);
-        commentMapper.insert(comment);
-        return null;
+        commentService.insert(comment);
+        Map<Object,Object> objectObjectMap = new HashMap<>();
+        objectObjectMap.put("message","成功");
+        return objectObjectMap;
     }
 }
