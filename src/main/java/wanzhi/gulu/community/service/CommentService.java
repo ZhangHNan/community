@@ -67,6 +67,7 @@ public class CommentService {
         example.createCriteria()
                 .andParentIdEqualTo(id)
                 .andTypeEqualTo(CommentTypeEnum.QUESTION.getType());
+        example.setOrderByClause("gmt_create desc");//按照创建时间倒叙查询
         //根据ParentId查询问题评论
         List<Comment> comments = commentMapper.selectByExample(example);
         if (comments.size() == 0) {

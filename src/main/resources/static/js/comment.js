@@ -1,6 +1,10 @@
 function post(){
     var questionId = $("#questionId").val();
     var commentContent = $("#commentContent").val();
+    if (!commentContent) {
+        alert("评论不能为空！！！");
+        return;
+    }
     $.ajax({
         type:"POST",
         url:"/comment",
@@ -12,7 +16,7 @@ function post(){
         }),
         success:function (response) {
             if(response.code == 200){
-                $("#comment_area").hide();
+                window.location.reload();
             }else{
                 if(response.code == 3005){
                     var isAccepted = confirm(response.message);

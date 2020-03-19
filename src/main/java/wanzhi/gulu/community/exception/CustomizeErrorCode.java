@@ -12,6 +12,7 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode {
     SYSTEM_ERROR(5000,"服务器冒烟了，要不然你稍后再试试！？！"),//未知异常，没有处理的，应该抛到异常页面
     TYPE_PARAM_ERROR(4005,"评论类型错误，或不存在！"),
     COMMENT_NOT_FOUND(4004,"评论不存在！"),
+    CONTENT_IS_EMPTY(4007,"评论内容不能为空！"),
     ;//这里定义的枚举是为了给下面构造函数中传入message准备的
 
     private String message;

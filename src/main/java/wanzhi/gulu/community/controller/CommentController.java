@@ -1,5 +1,6 @@
 package wanzhi.gulu.community.controller;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,14 +27,17 @@ public class CommentController {
                        HttpServletRequest request){
         Comment comment = new Comment();
         User user = (User)request.getSession().getAttribute("user");
-        if (user != null) {
-            comment.setCommentator(user.getId());
-        }else{
+        if (user == null) {
             //用户未登录
 //            comment.setCommentator(999);
 //            throw new CustomizeException(CustomizeErrorCode.LOGIN_NOT_FOUND);
             return CommentResultDTO.errorOf(CustomizeErrorCode.LOGIN_NOT_FOUND);
         }
+//        if(commentCreateDTO.getContent()==null||"".equals(commentCreateDTO.getContent())){
+        if(StringUtils.isBlank(commentCreateDTO.getContent())){
+            return CommentResultDTO.errorOf(CustomizeErrorCode.CONTENT_IS_EMPTY);
+        }
+        comment.setCommentator(user.getId());
         comment.setParentId(commentCreateDTO.getParentId());//注意这个ParentId可能不存在：发帖用户已删除
         comment.setType(commentCreateDTO.getType());
         comment.setContent(commentCreateDTO.getContent());
