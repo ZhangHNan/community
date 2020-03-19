@@ -31,3 +31,34 @@ body{
 .btn-comment{
     float: right;
 }
+.img-comments{
+    width: 38px;
+    height: 38px;
+}
+.comments{
+}
+.comment-menu{
+    color:#999;
+}
+.comment-menu .icon{
+    margin-right: 15px;
+    cursor: pointer;
+}
+.comment-menu .icon:hover{
+    color: black;
+}
+.comments-data{
+    margin-right: 15px;
+    cursor: default;
+}
+.comment-commentator{
+    font-size: 15px;
+}
+.comments-hr{
+}
+.comments-like{
+
+}
+.comments-replyCount{
+    margin-top: 18px;
+}

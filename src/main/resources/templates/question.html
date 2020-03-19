@@ -36,7 +36,32 @@
                     <span class="glyphicon glyphicon-edit " aria-hidden="true"></span>
                     编辑
                 </a>
-                <hr th:if="${session.user!=null&&questionDTO.user.accountId==session.user.accountId}">
+
+                <h4 class="comments-replyCount">
+                    <span th:text="${questionDTO.commentCount}">0</span> 个回复
+                </h4>
+                <hr>
+
+                <div class="media" th:each="commentDTO:${commentDTOS}">
+                    <div class="media-left">
+                        <img class="media-object img-rounded img-comments" th:src="${commentDTO.user.avatarUrl}"
+                         src="../static/img/9150e4e5gy1gab4a9xjurj205h04wdfr.jpg">
+                    </div>
+                    <div class="comments media-body">
+                        <span class="comment-commentator" th:text="${commentDTO.user.name}">黎明</span>
+                        <div th:text="${commentDTO.content}">
+                            我是评论内容
+                        </div>
+                        <div class="comment-menu">
+                            <span class="glyphicon glyphicon-thumbs-up comments-like icon"></span>
+                            <span class="glyphicon glyphicon-comment icon"></span>
+                            <span class="pull-right comments-data" th:text="${#dates.format(commentDTO.gmtCreate,'yyyy-MM-dd HH:mm')}">2019-06-09</span>
+                        </div>
+                    </div>
+                    <hr class="comments-hr">
+                </div>
+
+
 
                 <div>
                     <img class="media-object img-rounded img-avatar" th:src="${questionDTO.user.avatarUrl}"
