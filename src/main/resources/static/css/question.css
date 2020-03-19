@@ -80,3 +80,8 @@ body{
 .comments-form{
     overflow: hidden;
 }
+.commentCount{
+    position: relative;
+    left: -5px;
+    top: -1px;
+}

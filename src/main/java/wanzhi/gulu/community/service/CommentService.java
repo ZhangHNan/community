@@ -8,10 +8,7 @@ import wanzhi.gulu.community.dto.CommentDTO;
 import wanzhi.gulu.community.enums.CommentTypeEnum;
 import wanzhi.gulu.community.exception.CustomizeErrorCode;
 import wanzhi.gulu.community.exception.CustomizeException;
-import wanzhi.gulu.community.mapper.CommentMapper;
-import wanzhi.gulu.community.mapper.QuestionExtMapper;
-import wanzhi.gulu.community.mapper.QuestionMapper;
-import wanzhi.gulu.community.mapper.UserMapper;
+import wanzhi.gulu.community.mapper.*;
 import wanzhi.gulu.community.model.*;
 
 import java.util.ArrayList;
@@ -28,6 +25,9 @@ public class CommentService {
 
     @Autowired
     private QuestionExtMapper questionExtMapper;
+
+    @Autowired
+    CommentExtMapper commentExtMapper;
 
     @Autowired
     CommentMapper commentMapper;
@@ -49,14 +49,19 @@ public class CommentService {
             if (dbComment == null) {
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
-            commentMapper.insert(comment);
+            //增加评论的评论数
+            Comment updateComment = new Comment();
+            updateComment.setId(comment.getParentId());
+            updateComment.setCommentCount(1L);
+            commentExtMapper.incCommentCount(updateComment);
+            commentMapper.insertSelective(comment);
         } else {
             //回复问题
             Question dbQuestion = questionMapper.selectByPrimaryKey(comment.getParentId());
             if (dbQuestion == null) {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
-            commentMapper.insert(comment);
+            commentMapper.insertSelective(comment);
             dbQuestion.setCommentCount(1);
             questionExtMapper.incCommentCount(dbQuestion);
         }
