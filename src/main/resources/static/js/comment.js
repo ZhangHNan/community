@@ -62,11 +62,42 @@ function collapseComments(e) {
         e.removeAttribute("data-collapse","in");
         e.classList.remove("active");
     }else{
-        //展开二级评论
-        comments.addClass("in");
-        //标记二级评论展开状态
-        e.setAttribute("data-collapse","in");
-        e.classList.add("active");
-
+        var subCommentContainer = $("#comment-"+id);
+        if (subCommentContainer.children().length !=1){
+            //已经加载过了，直接展开即可
+            //展开二级评论
+            comments.addClass("in");
+            //标记二级评论展开状态
+            e.setAttribute("data-collapse","in");
+            e.classList.add("active");
+        }else{
+            $.getJSON("/comment/"+id,function (data) {
+                $.each(data.data.reverse(),function (index,comment) {
+                    var a = "<div class=\"media\">\n" +
+                        "                                <div class=\"media-left\">\n" +
+                        "                                    <img class=\"media-object img-rounded img-comments\" src=\""+ comment.user.avatarUrl +"\"\n" +
+                        "                                         src=\"../static/img/9150e4e5gy1gab4a9xjurj205h04wdfr.jpg\">\n" +
+                        "                                </div>\n" +
+                        "                                <div class=\"comments media-body\">\n" +
+                        "                                    <span class=\"comment-commentator\">"+ comment.user.name +"</span>\n" +
+                        "                                    <div>\n" +
+                        "                                        "+ comment.content +"\n" +
+                        "                                    </div>\n" +
+                        "                                    <div class=\"comment-menu\">\n" +
+                        "                                        <span class=\"glyphicon glyphicon-thumbs-up comments-like icon\"></span>\n" +
+                        "                                        <span class=\"pull-right comments-data\">"+ moment(comment.gmtCreate).format('YYYY-M-D HH:mm') +"</span>\n" +
+                        "                                    </div>\n" +
+                        "                                </div>\n" +
+                        "                                <hr class=\"comments-hr\">\n" +
+                        "                            </div>";
+                    subCommentContainer.prepend(a);
+                });
+            });
+            //展开二级评论
+            comments.addClass("in");
+            //标记二级评论展开状态
+            e.setAttribute("data-collapse","in");
+            e.classList.add("active");
+        }
     }
 }
