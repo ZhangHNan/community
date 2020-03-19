@@ -1,7 +1,22 @@
+//提交帖子的回复（评论）
 function post(){
     var questionId = $("#questionId").val();
     var commentContent = $("#commentContent").val();
-    if (!commentContent) {
+    comment2target(questionId,1,commentContent)
+}
+
+function secondPost(e){
+    var id = e.getAttribute("data-id");
+    var contentId = "#input-"+id;
+    var content = $(contentId).val();
+    console.log(id);
+    console.log(content);
+    comment2target(id,2,content);
+}
+
+//评论功能
+function comment2target(targetId, type, content){
+    if (!content) {
         alert("评论不能为空！！！");
         return;
     }
@@ -10,9 +25,9 @@ function post(){
         url:"/comment",
         contentType:"application/json",
         data:JSON.stringify({
-            "parentId": questionId,
-            "content": commentContent,
-            "type": 1
+            "parentId": targetId,
+            "content": content,
+            "type": type
         }),
         success:function (response) {
             if(response.code == 200){
@@ -31,4 +46,27 @@ function post(){
         },
         dataType:"json"
     })
+}
+
+
+//展开二级评论
+function collapseComments(e) {
+    var id = e.getAttribute("data-id");
+    var comments = $("#comment-"+id);
+    //获取一下二级评论的展开状态
+    var collapse = e.getAttribute("data-collapse","in");
+    if (collapse){
+        //折叠二级评论
+        comments.removeClass("in");
+        //
+        e.removeAttribute("data-collapse","in");
+        e.classList.remove("active");
+    }else{
+        //展开二级评论
+        comments.addClass("in");
+        //标记二级评论展开状态
+        e.setAttribute("data-collapse","in");
+        e.classList.add("active");
+
+    }
 }

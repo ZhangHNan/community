@@ -54,8 +54,34 @@
                         </div>
                         <div class="comment-menu">
                             <span class="glyphicon glyphicon-thumbs-up comments-like icon"></span>
-                            <span class="glyphicon glyphicon-comment icon"></span>
+                            <span class="glyphicon glyphicon-comment icon" th:data-id="${commentDTO.id}" onclick="collapseComments(this)"></span>
                             <span class="pull-right comments-data" th:text="${#dates.format(commentDTO.gmtCreate,'yyyy-MM-dd HH:mm')}">2019-06-09</span>
+                        </div>
+                        <!--二级评论-->
+                        <div class="collapse comments-border" th:id="${'comment-'+commentDTO.id}">
+                            <!--二级评论区-->
+                            <div class="media" th:each="commentDTO:${commentDTOS}">
+                                <div class="media-left">
+                                    <img class="media-object img-rounded img-comments" th:src="${commentDTO.user.avatarUrl}"
+                                         src="../static/img/9150e4e5gy1gab4a9xjurj205h04wdfr.jpg">
+                                </div>
+                                <div class="comments media-body">
+                                    <span class="comment-commentator" th:text="${commentDTO.user.name}">黎明</span>
+                                    <div th:text="${commentDTO.content}">
+                                        我是评论内容
+                                    </div>
+                                    <div class="comment-menu">
+                                        <span class="glyphicon glyphicon-thumbs-up comments-like icon"></span>
+                                        <span class="pull-right comments-data" th:text="${#dates.format(commentDTO.gmtCreate,'yyyy-MM-dd HH:mm')}">2019-06-09</span>
+                                    </div>
+                                </div>
+                                <hr class="comments-hr">
+                            </div>
+                            <!--二级评论编辑框-->
+                            <div id="" class="comments-form">
+                                <input type="text" th:id="${'input-'+commentDTO.id}" class="form-control" id="exampleInputEmail1" placeholder="评论一下……">
+                                <button type="button" onclick="secondPost(this)" th:data-id="${commentDTO.id}" class="btn btn-success btn-comments">评论</button>
+                            </div>
                         </div>
                     </div>
                     <hr class="comments-hr">

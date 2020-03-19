@@ -9,9 +9,10 @@ import wanzhi.gulu.community.exception.CustomizeException;
  * 用于封装CommentController中请求postAPI返回的json数据
  */
 @Data
-public class CommentResultDTO {
+public class CommentResultDTO<T> {
     private Integer code;
     private String message;
+    private T data;
 
     //请求错误的话返回的数据
     public static CommentResultDTO errorOf(Integer code,String message){
@@ -30,6 +31,14 @@ public class CommentResultDTO {
         CommentResultDTO resultDTO = new CommentResultDTO();
         resultDTO.setCode(200);
         resultDTO.setMessage("请求成功");
+        return resultDTO;
+    }
+
+    public static <T> CommentResultDTO okOf(T t){
+        CommentResultDTO resultDTO = new CommentResultDTO();
+        resultDTO.setCode(200);
+        resultDTO.setMessage("请求成功");
+        resultDTO.setData(t);
         return resultDTO;
     }
 

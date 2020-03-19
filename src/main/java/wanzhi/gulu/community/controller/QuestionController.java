@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import wanzhi.gulu.community.dto.CommentDTO;
 import wanzhi.gulu.community.dto.QuestionDTO;
+import wanzhi.gulu.community.enums.CommentTypeEnum;
 import wanzhi.gulu.community.service.CommentService;
 import wanzhi.gulu.community.service.QuestionService;
 
@@ -25,7 +26,7 @@ public class QuestionController {
     public String question(@PathVariable("id") Long id,
                            Model model){
         QuestionDTO questionDTO = questionService.findQuestionById(id);
-        List<CommentDTO> commentDTOs = commentService.listByQuestionId(id);
+        List<CommentDTO> commentDTOs = commentService.listByTargetId(id,CommentTypeEnum.QUESTION);
         //累计阅读数
         questionService.incView(id);
         model.addAttribute("questionDTO",questionDTO);

@@ -3,17 +3,18 @@ package wanzhi.gulu.community.controller;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import wanzhi.gulu.community.dto.CommentCreateDTO;
+import wanzhi.gulu.community.dto.CommentDTO;
 import wanzhi.gulu.community.dto.CommentResultDTO;
+import wanzhi.gulu.community.enums.CommentTypeEnum;
 import wanzhi.gulu.community.exception.CustomizeErrorCode;
 import wanzhi.gulu.community.model.Comment;
 import wanzhi.gulu.community.model.User;
 import wanzhi.gulu.community.service.CommentService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class CommentController {
@@ -48,5 +49,13 @@ public class CommentController {
 //        Map<Object,Object> objectObjectMap = new HashMap<>();
 //        objectObjectMap.put("message","成功");
         return CommentResultDTO.okOf();
+    }
+
+    //二级评论API
+    @ResponseBody
+    @GetMapping("/comment/{id}")
+    public CommentResultDTO comments(@PathVariable("id")Long id){
+        List<CommentDTO> commentDTOs = commentService.listByTargetId(id,CommentTypeEnum.COMMENT);
+        return CommentResultDTO.okOf(commentDTOs);
     }
 }
