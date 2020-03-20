@@ -6,8 +6,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import wanzhi.gulu.community.cache.TagCache;
 import wanzhi.gulu.community.check.LoginCheck;
 import wanzhi.gulu.community.dto.QuestionDTO;
+import wanzhi.gulu.community.dto.TagDTO;
 import wanzhi.gulu.community.exception.CustomizeErrorCode;
 import wanzhi.gulu.community.exception.CustomizeException;
 import wanzhi.gulu.community.mapper.QuestionMapper;
@@ -38,8 +40,9 @@ public class PublishController {
 
     //到发布页面
     @GetMapping("/publish")
-    public String publish(HttpServletRequest request){
+    public String publish(HttpServletRequest request,Model model){
         //进入publish时，也要获取cookies中的token数据，根据token查询数据库中有无登录数据
+        model.addAttribute("tags",TagCache.get());
         return "publish";
     }
 
@@ -68,6 +71,7 @@ public class PublishController {
         model.addAttribute("description",question.getDescription());
         model.addAttribute("tag",question.getTag());
         model.addAttribute("id",id);
+        model.addAttribute("tags",TagCache.get());
         return "publish";
     }
 
@@ -98,6 +102,7 @@ public class PublishController {
             model.addAttribute("description",question.getDescription());
             model.addAttribute("tag",question.getTag());
             model.addAttribute("id",question.getId());
+            model.addAttribute("tags",TagCache.get());
             return "publish";
         }
         if (question.getDescription()==null||question.getDescription().equals("")){
@@ -106,6 +111,7 @@ public class PublishController {
             model.addAttribute("description",question.getDescription());
             model.addAttribute("tag",question.getTag());
             model.addAttribute("id",question.getId());
+            model.addAttribute("tags",TagCache.get());
             return "publish";
         }
         if (question.getTag()==null||question.getTag().equals("")){
@@ -114,6 +120,7 @@ public class PublishController {
             model.addAttribute("description",question.getDescription());
             model.addAttribute("tag",question.getTag());
             model.addAttribute("id",question.getId());
+            model.addAttribute("tags",TagCache.get());
             return "publish";
         }
         User user=null; //下面要判断这个对象是不是null，此处不能用new User(),这样user就不是null了
@@ -146,6 +153,7 @@ public class PublishController {
             model.addAttribute("description",question.getDescription());
             model.addAttribute("tag",question.getTag());
             model.addAttribute("questionId",question.getId());
+            model.addAttribute("tags",TagCache.get());
 //            System.out.println("未登录！");
             loginCheck.check(cookies,request);
 //            System.out.println("question:"+question);
