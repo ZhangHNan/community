@@ -53,17 +53,17 @@ public class CommentService {
             Comment updateComment = new Comment();
             updateComment.setId(comment.getParentId());
             updateComment.setCommentCount(1L);
-            commentExtMapper.incCommentCount(updateComment);
             commentMapper.insertSelective(comment);
+            commentExtMapper.incCommentCount(updateComment);
         } else {
             //回复问题
             Question dbQuestion = questionMapper.selectByPrimaryKey(comment.getParentId());
             if (dbQuestion == null) {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
-            commentMapper.insertSelective(comment);
             dbQuestion.setCommentCount(1);
             questionExtMapper.incCommentCount(dbQuestion);
+            commentMapper.insertSelective(comment);
         }
     }
 

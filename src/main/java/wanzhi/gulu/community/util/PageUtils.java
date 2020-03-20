@@ -74,13 +74,16 @@ public class PageUtils {
         if (id == null) {
             //分页查询所有帖子
 //            questionDTOs = questionMapper.findByPage(start, rows);
-            questions = questionMapper.selectByExampleWithRowbounds(new QuestionExample(), new RowBounds(start, rows));
+            QuestionExample example = new QuestionExample();
+            example.setOrderByClause("gmt_create desc");
+            questions = questionMapper.selectByExampleWithRowbounds(example, new RowBounds(start, rows));
         } else {
             //根据创建者来分页查询帖子
 //            questionDTOs = questionMapper.findByPageByCreator(start, rows, id);
             QuestionExample example = new QuestionExample();
             example.createCriteria()
                     .andCreatorEqualTo(id);
+            example.setOrderByClause("gmt_create desc");
             questions = questionMapper.selectByExampleWithRowbounds(example, new RowBounds(start, rows));
         }
         for(Question question:questions){

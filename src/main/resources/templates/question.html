@@ -19,30 +19,41 @@
         <div class="row">
             <div class="col-lg-9 col-md-12 col-xs-12">
                 <!--左3/4区域：主页的主体-->
+                <!--标题部分-->
                 <h2><span th:text="${questionDTO.title}">标题 </span></h2>
+                <!--作者信息部分-->
                 <span class="text-desc">
                     作者：<span th:text="${questionDTO.user.name}">黎明</span>
                     | <span th:text="${#dates.format(questionDTO.gmtCreate,'yyyy-MM-dd HH:mm')}">2019-06-09</span>
                     | 阅读数：<span th:text="${questionDTO.viewCount}">11</span>
                 </span>
                 <hr>
-
+                <!--内容部分-->
                 <div th:text="${questionDTO.description}">内容</div>
 
                 <hr>
-                <span th:text="${questionDTO.tag}">标签</span>
+                <div>
+                    <!--标签部分-->
+                    <span class="label label-info comment-tag" th:each="tag:${questionDTO.tag.split(',')}">
+                        <span class="glyphicon glyphicon-tags comment-tag-icon"></span>
+                        <span th:text="${tag}">
+                            标签
+                        </span>
+                    </span>
+                </div>
                 <hr>
-
+                <!--编辑部分-->
                 <a th:if="${session.user!=null&&questionDTO.user.accountId==session.user.accountId}" th:href="@{'/publish/'+${questionDTO.id}}" href="#" class="question-edit">
                     <span class="glyphicon glyphicon-edit " aria-hidden="true"></span>
                     编辑
                 </a>
 
+                <!--回复数部分-->
                 <h4 class="comments-replyCount">
                     <span th:text="${questionDTO.commentCount}">0</span> 个回复
                 </h4>
                 <hr>
-
+                <!--评论展示部分-->
                 <div class="media" th:each="commentDTO:${commentDTOS}">
                     <div class="media-left">
                         <img class="media-object img-rounded img-comments" th:src="${commentDTO.user.avatarUrl}"
@@ -59,7 +70,7 @@
                             <span class="commentCount icon" th:text="${commentDTO.commentCount}"></span>
                             <span class="pull-right comments-data" th:text="${#dates.format(commentDTO.gmtCreate,'yyyy-MM-dd HH:mm')}">2019-06-09</span>
                         </div>
-                        <!--二级评论-->
+                        <!--二级评论部分-->
                         <div class="collapse comments-border" th:id="${'comment-'+commentDTO.id}">
                             <!--二级评论区-->
 
@@ -102,11 +113,12 @@
                             <!--</div>-->
                             <!--复制到js中替换其中的变量即可↑↑↑-->
 
-                            <!--二级评论编辑框-->
+                            <!--二级评论编辑区-->
                             <div id="" class="comments-form">
                                 <input type="text" th:id="${'input-'+commentDTO.id}" class="form-control" id="exampleInputEmail1" placeholder="评论一下……">
                                 <button type="button" onclick="secondPost(this)" th:data-id="${commentDTO.id}" class="btn btn-success btn-comments">评论</button>
                             </div>
+
                         </div>
                     </div>
                     <hr class="comments-hr">
@@ -116,6 +128,7 @@
                     提交回复
                 </span>
                 <hr>
+                <!--一级评论编辑区-->
                 <div>
                     <img class="media-object img-rounded img-avatar" th:src="${questionDTO.user.avatarUrl}"
                          src="../static/img/9150e4e5gy1gab4a9xjurj205h04wdfr.jpg">
@@ -136,8 +149,19 @@
                     <span th:text="${questionDTO.user.name}">黎明</span>
                 </div>
                 <hr>
-                <div>
+                <div id="related">
                     <h3>相关问题</h3>
+                    <ul>
+                        <li th:each="related:${relatedQuestionDTOS}">
+                            <a href="#" th:href="@{'/question/'+${related.getId()}}" th:text="${related.title}"> 测试</a>
+                        </li>
+                    </ul>
+                </div>
+                <hr>
+                <div>
+                    <h3>站长微信</h3>
+                    <img class="media-object img-rounded img-weiChat" th:src="@{/img/微信图片_20200320152909.jpg}"
+                         src="../static/img/微信图片_20200320152909.jpg">
                 </div>
             </div>
         </div>

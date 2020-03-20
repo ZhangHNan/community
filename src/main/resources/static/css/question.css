@@ -82,6 +82,24 @@ body{
 }
 .commentCount{
     position: relative;
-    left: -5px;
-    top: -1px;
+    left: -13px;
+    top: -2px;
+}
+.comment-tag{
+    margin-right: 8px;
+    padding-top: 4.5px;
+}
+.comment-tag-icon{
+    margin-right: 4px;
+}
+#related ul{
+    list-style: none;
+    padding-left: 27px;
+}
+#related a:hover{
+    text-decoration: none;
+}
+.img-weiChat{
+    width: 70%;
+    margin: auto;
 }

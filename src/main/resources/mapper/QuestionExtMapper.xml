@@ -22,4 +22,7 @@
     set comment_count = comment_count + #{commentCount,jdbcType=INTEGER}
     where id = #{id}
   </update>
+  <select id="selectRelated" parameterType="wanzhi.gulu.community.model.Question" resultMap="BaseResultMap">
+    select * from question WHERE tag REGEXP #{tag} AND id != #{id};
+  </select>
 </mapper>
