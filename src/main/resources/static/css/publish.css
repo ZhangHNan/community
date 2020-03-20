@@ -26,3 +26,16 @@ body{
     padding:10px 18px;
     /*display: none;*/
 }
+.comment-tags{
+    margin-top: 10px;
+}
+.comment-tag{
+    margin-right: 8px;
+    padding-top: 4.5px;
+}
+.comment-tag-icon{
+    margin-right: 4px;
+}
+.tab-content{
+    margin-top: 10px;
+}
