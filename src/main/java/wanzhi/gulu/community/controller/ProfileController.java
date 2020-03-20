@@ -24,7 +24,7 @@ public class ProfileController {
     QuestionService questionService;
 
     @Autowired
-    private NotificationService notificationServie;
+    private NotificationService notificationService;
 
     @GetMapping("/profile/{action}")
     public String profile(@PathVariable("action") String action,
@@ -45,9 +45,9 @@ public class ProfileController {
         if ("replies".equals(action)){
             model.addAttribute("section","replies");
             model.addAttribute("sectionName","最新回复");
-            PageDTO notificationPageDTO = notificationServie.findPage(currentPage, user.getId());
-            model.addAttribute("notificationPageDTO",notificationPageDTO);
         }
+        PageDTO notificationPageDTO = notificationService.findPage(currentPage, user.getId());
+        model.addAttribute("notificationPageDTO",notificationPageDTO);
         PageDTO pageDTO = questionService.findPageByCreator(currentPage,user.getId());
         model.addAttribute("pageDTO",pageDTO);
 
