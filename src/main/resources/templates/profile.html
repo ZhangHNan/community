@@ -35,9 +35,13 @@
                         </a>
                         [[${questionDTO.description}]]
                         <br>
-                        <span class="text-desc"> [[${questionDTO.commentCount}]] 个回复 | [[${questionDTO.viewCount}]] 次浏览 | <span
-                                th:text="${#dates.format(questionDTO.gmtCreate,'yyyy-MM-dd HH:mm')}"
-                        ></span></span>
+                        <span class="text-desc"> [[${questionDTO.commentCount}]] 个回复 | [[${questionDTO.viewCount}]] 次浏览 |
+                            <span th:text="${#dates.format(questionDTO.gmtCreate,'yyyy-MM-dd HH:mm')}"></span> |
+                            <a th:if="${session.user!=null&&questionDTO.user.accountId==session.user.accountId}" th:href="@{'/publish/'+${questionDTO.id}}" href="#" class="question-edit">
+                                <span class="glyphicon glyphicon-edit " aria-hidden="true"></span>
+                                编辑
+                            </a>
+                        </span>
                     </div>
                 </div>
                 <nav th:if="${section=='questions'}">
@@ -71,7 +75,7 @@
             <div class="col-lg-3 col-md-12 col-xs-12 right-bar">
                 <!--右边1/4区域：选择列表-->
                 <div class="list-group">
-                    <a th:href="@{/profile/questions}" th:class="${section=='questions'}?'active list-group-item':'list-group-item'" class="list-group-item active">我的信息<span class="badge">10</span></a>
+                    <a th:href="@{/profile/questions}" th:class="${section=='questions'}?'active list-group-item':'list-group-item'" class="list-group-item active">我的问题<span class="badge" th:text="${pageDTO.totalCount}">10</span></a>
                     <a th:href="@{/profile/replies}" th:class="${section=='replies'}?'active list-group-item':'list-group-item'"  class="list-group-item" >最新回复<span class="badge">14</span></a>
                 </div>
             </div>
