@@ -22,7 +22,7 @@
                     <span th:if="${section=='replies'}" class=" glyphicon glyphicon-question-sign" aria-hidden="true"></span>
                     [[${sectionName}]]</h2>
                 <hr>
-                <div class="media" th:if="${section=='questions'}" th:each="questionDTO:${pageDTO.questionDTOS}">
+                <div class="media" th:if="${section=='questions'}" th:each="questionDTO:${pageDTO.dataS}">
                     <div class="media-left">
                         <a th:href="@{'/question/'+${questionDTO.getId()}}">
                             <img class="media-object img-rounded img-avatar" th:src="${questionDTO.user.avatarUrl}"

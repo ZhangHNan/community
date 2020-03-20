@@ -4,13 +4,15 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import wanzhi.gulu.community.dto.NotificationDTO;
 import wanzhi.gulu.community.dto.PageDTO;
 import wanzhi.gulu.community.dto.QuestionDTO;
+import wanzhi.gulu.community.enums.NotificationTypeEnum;
+import wanzhi.gulu.community.mapper.CommentMapper;
+import wanzhi.gulu.community.mapper.NotificationMapper;
 import wanzhi.gulu.community.mapper.QuestionMapper;
 import wanzhi.gulu.community.mapper.UserMapper;
-import wanzhi.gulu.community.model.Question;
-import wanzhi.gulu.community.model.QuestionExample;
-import wanzhi.gulu.community.model.User;
+import wanzhi.gulu.community.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,30 +29,43 @@ public class PageUtils {
     @Autowired
     UserMapper userMapper;
 
-    //PageDTO的自动构造方法，传入PageDTO对象即可构造pageDTO并返回
-    public PageDTO autoStructurePageDTO(int currentPage, int rows, int buttonCount) {
-        return autoStructurePageDTOByCreator(currentPage, rows, buttonCount, null);
+    @Autowired
+    NotificationMapper notificationMapper;
+
+    @Autowired
+    CommentMapper commentMapper;
+
+    //编写自动构建PageDTO的步骤
+    private PageDTO autoStructurePageDTO(int currentPage, int rows, int buttonCount) {
+        //查询数据总数TotalCount
+        //构建分页模型
+        //补充数据
+        return null;
     }
 
-    public PageDTO autoStructurePageDTOByCreator(int currentPage, int rows, int buttonCount, Long id) {
+    //QuestionPageDTO的自动构造方法，传入需要跳转页面、每页展示数据条数、每页显示按钮数即可构造pageDTO并返回
+    public PageDTO autoStructureQuestionPageDTO(int currentPage, int rows, int buttonCount) {
+        return autoStructureQuestionPageDTO(currentPage, rows, buttonCount, null);
+    }
+
+    //QuestionPageDTO的自动构造方法：分三步：查总数、键模型、查数据
+    public PageDTO autoStructureQuestionPageDTO(int currentPage, int rows, int buttonCount, Long id) {
+        //查询总数TotalCount
+        Integer totalCount = selectQuestionDTOTotalCount(id);
+        //构建分页模型
+        PageDTO pageDTO = autoStructurePageModel(currentPage, rows, buttonCount, totalCount);
+        //补充分页数据
+        pageDTO = injectQuestionDTODataS(pageDTO, id);
+        return pageDTO;
+    }
+
+    //自动构建分页模型，但无数据
+    private PageDTO autoStructurePageModel(int currentPage, int rows, int buttonCount, Integer totalCount) {
         PageDTO pageDTO = new PageDTO();
+        //给PageDTO赋值
         pageDTO.setCurrentPage(currentPage);
         pageDTO.setRows(rows);
-        //给PageDTO赋值
-        //查询帖子（数据）总数并赋值
-        Integer totalCount = 0;
-        if (id == null) {
-            //查询所有帖子总数
-//            totalCount = questionMapper.findTotalCount();
-            totalCount = questionMapper.countByExample(new QuestionExample());
-        } else {
-            //根据创建者来查询帖子总数
-//            totalCount = questionMapper.findTotalCountById(id);
-            QuestionExample example = new QuestionExample();
-            example.createCriteria()
-                    .andCreatorEqualTo(id);
-            totalCount = questionMapper.countByExample(example);
-        }
+        //赋值数据总数
         pageDTO.setTotalCount(totalCount);
 
         //计算最后一页数（需要计算出帖子总数）并赋值
@@ -67,38 +82,6 @@ public class PageUtils {
 
         //判断是否展示前面两个和后面两个按钮
         pageDTO = judgeShow(pageDTO);
-
-        //分页查询帖子（需要传入开始索引和显示行数）
-        List<QuestionDTO> questionDTOs = new ArrayList<>();
-        List<Question> questions= new ArrayList<>();
-        if (id == null) {
-            //分页查询所有帖子
-//            questionDTOs = questionMapper.findByPage(start, rows);
-            QuestionExample example = new QuestionExample();
-            example.setOrderByClause("gmt_create desc");
-            questions = questionMapper.selectByExampleWithRowbounds(example, new RowBounds(start, rows));
-        } else {
-            //根据创建者来分页查询帖子
-//            questionDTOs = questionMapper.findByPageByCreator(start, rows, id);
-            QuestionExample example = new QuestionExample();
-            example.createCriteria()
-                    .andCreatorEqualTo(id);
-            example.setOrderByClause("gmt_create desc");
-            questions = questionMapper.selectByExampleWithRowbounds(example, new RowBounds(start, rows));
-        }
-        for(Question question:questions){
-            QuestionDTO questionDTO = new QuestionDTO();
-            BeanUtils.copyProperties(question,questionDTO);
-            questionDTOs.add(questionDTO);
-        }
-
-        for (QuestionDTO questionDTO : questionDTOs) {
-//            User user = userMapper.findById(questionDTO.getCreator());
-            User user = userMapper.selectByPrimaryKey(questionDTO.getCreator());
-            questionDTO.setUser(user);
-        }
-        //将查询出来的帖子赋给PageDTO
-        pageDTO.setQuestionDTOS(questionDTOs);
 
         return pageDTO;
     }
@@ -193,12 +176,118 @@ public class PageUtils {
             }
         }
         //当页面一个数据页没有的时候都不显示
-        if (pageDTO.getTotalCount()==0){
+        if (pageDTO.getTotalCount() == 0) {
             pageDTO.setShowFirst(false);
             pageDTO.setShowEnd(false);
             pageDTO.setShowLast(false);
             pageDTO.setShowNext(false);
         }
+        return pageDTO;
+    }
+
+    //QuestionPageDTO查询总数的方法
+    private Integer selectQuestionDTOTotalCount(Long id) {
+        Integer totalCount = 0;
+        if (id == null) {
+            //查询所有帖子总数
+//            totalCount = questionMapper.findTotalCount();
+            totalCount = questionMapper.countByExample(new QuestionExample());
+        } else {
+            //根据创建者来查询帖子总数
+//            totalCount = questionMapper.findTotalCountById(id);
+            QuestionExample example = new QuestionExample();
+            example.createCriteria()
+                    .andCreatorEqualTo(id);
+            totalCount = questionMapper.countByExample(example);
+        }
+        return totalCount;
+    }
+
+    //QuestionPageDTO查询数据数的方法
+    private PageDTO injectQuestionDTODataS(PageDTO<QuestionDTO> pageDTO, Long id) {
+        //分页查询帖子（需要传入开始索引和显示行数）
+        List<QuestionDTO> questionDTOs = new ArrayList<>();
+        List<Question> questions = new ArrayList<>();
+        if (id == null) {
+            //分页查询所有帖子
+//            questionDTOs = questionMapper.findByPage(start, rows);
+            QuestionExample example = new QuestionExample();
+            example.setOrderByClause("gmt_create desc");
+            questions = questionMapper.selectByExampleWithRowbounds(example, new RowBounds(pageDTO.getStart(), pageDTO.getRows()));
+        } else {
+            //根据创建者来分页查询帖子
+//            questionDTOs = questionMapper.findByPageByCreator(start, rows, id);
+            QuestionExample example = new QuestionExample();
+            example.createCriteria()
+                    .andCreatorEqualTo(id);
+            example.setOrderByClause("gmt_create desc");
+            questions = questionMapper.selectByExampleWithRowbounds(example, new RowBounds(pageDTO.getStart(), pageDTO.getRows()));
+        }
+        for (Question question : questions) {
+            QuestionDTO questionDTO = new QuestionDTO();
+            BeanUtils.copyProperties(question, questionDTO);
+            questionDTOs.add(questionDTO);
+        }
+
+        for (QuestionDTO questionDTO : questionDTOs) {
+//            User user = userMapper.findById(questionDTO.getCreator());
+            User user = userMapper.selectByPrimaryKey(questionDTO.getCreator());
+            questionDTO.setUser(user);
+        }
+        //将查询出来的帖子赋给PageDTO
+        pageDTO.setDataS(questionDTOs);
+        return pageDTO;
+    }
+
+    public PageDTO autoStructureNotificationPageDTO(int currentPage, int rows, int buttonCount, Long receiver) {
+        //查询总数TotalCount
+        Integer totalCount = selectNotificationDTOTotalCountByReceiver(receiver);
+        //构建分页模型
+        PageDTO pageDTO = autoStructurePageModel(currentPage, rows, buttonCount, totalCount);
+        //补充分页数据
+        pageDTO = injectNotificationDTODataS(pageDTO,receiver);
+        return pageDTO;
+    }
+
+    private Integer selectNotificationDTOTotalCountByReceiver(Long receiver) {
+        NotificationExample example = new NotificationExample();
+        example.createCriteria()
+                .andReceiverEqualTo(receiver);
+        Integer totalCount = notificationMapper.countByExample(example);
+        return totalCount;
+    }
+
+    private PageDTO injectNotificationDTODataS(PageDTO pageDTO,Long receiver) {
+        //分页查询帖子（需要传入开始索引和显示行数）
+        List<NotificationDTO> notificationDTOs = new ArrayList<>();
+        List<Notification> notifications;
+        NotificationExample example = new NotificationExample();
+        example.createCriteria()
+                .andReceiverEqualTo(receiver);
+        example.setOrderByClause("gmt_create desc");
+        notifications = notificationMapper.selectByExampleWithRowbounds(example, new RowBounds(pageDTO.getStart(), pageDTO.getRows()));
+
+        for (Notification notification : notifications) {
+            NotificationDTO notificationDTO = new NotificationDTO();
+            BeanUtils.copyProperties(notification, notificationDTO);
+            notificationDTOs.add(notificationDTO);
+        }
+        for (NotificationDTO notificationDTO : notificationDTOs) {
+//            User user = userMapper.findById(questionDTO.getCreator());
+            User user = userMapper.selectByPrimaryKey(notificationDTO.getNotifier());
+            notificationDTO.setUser(user);
+            if (notificationDTO.getType() == NotificationTypeEnum.REPLY_QUESTION.getType()) {
+                Question question = questionMapper.selectByPrimaryKey(notificationDTO.getOuterid());
+                notificationDTO.setOuterTitle(question.getTitle());
+                notificationDTO.setTypeName(NotificationTypeEnum.REPLY_QUESTION.getName());
+            } else {
+                Comment comment = commentMapper.selectByPrimaryKey(notificationDTO.getOuterid());
+                notificationDTO.setOuterTitle(comment.getContent());
+                notificationDTO.setTypeName(NotificationTypeEnum.REPLY_COMMENT.getName());
+            }
+        }
+        //将查询出来的帖子赋给PageDTO
+        pageDTO.setDataS(notificationDTOs);
         return pageDTO;
     }
 }
