@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import wanzhi.gulu.community.dto.CommentDTO;
 import wanzhi.gulu.community.enums.CommentTypeEnum;
+import wanzhi.gulu.community.enums.NotificationStatusEnum;
+import wanzhi.gulu.community.enums.NotificationTypeEnum;
 import wanzhi.gulu.community.exception.CustomizeErrorCode;
 import wanzhi.gulu.community.exception.CustomizeException;
 import wanzhi.gulu.community.mapper.*;
@@ -35,6 +37,9 @@ public class CommentService {
     @Autowired
     UserMapper userMapper;
 
+    @Autowired
+    NotificationMapper notificationMapper;
+
     @Transactional
     public void insert(Comment comment) {
         if (comment.getParentId() == null || comment.getParentId() == 0) {
@@ -55,6 +60,8 @@ public class CommentService {
             updateComment.setCommentCount(1L);
             commentMapper.insertSelective(comment);
             commentExtMapper.incCommentCount(updateComment);
+            //创建通知
+            createNotify(comment,dbComment.getCommentator(), NotificationTypeEnum.REPLY_COMMENT);
         } else {
             //回复问题
             Question dbQuestion = questionMapper.selectByPrimaryKey(comment.getParentId());
@@ -64,7 +71,21 @@ public class CommentService {
             dbQuestion.setCommentCount(1);
             questionExtMapper.incCommentCount(dbQuestion);
             commentMapper.insertSelective(comment);
+            //创建通知
+            createNotify(comment,dbQuestion.getCreator(), NotificationTypeEnum.REPLY_QUESTION);
         }
+    }
+
+    //传入被评论对象，以及评论人id，和评论类型即可
+    private void createNotify(Comment comment, Long receiver, NotificationTypeEnum notificationTypeEnum) {
+        Notification notification = new Notification();
+        notification.setGmtCreate(System.currentTimeMillis());
+        notification.setType(notificationTypeEnum.getType());
+        notification.setOuterid(comment.getParentId());
+        notification.setNotifier(comment.getCommentator());
+        notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
+        notification.setReceiver(receiver);
+        notificationMapper.insert(notification);
     }
 
     public List<CommentDTO> listByTargetId(Long id, CommentTypeEnum type) {

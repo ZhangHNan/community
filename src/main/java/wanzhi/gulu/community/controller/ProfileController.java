@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import wanzhi.gulu.community.check.LoginCheck;
 import wanzhi.gulu.community.dto.PageDTO;
 import wanzhi.gulu.community.model.User;
+import wanzhi.gulu.community.service.NotificationService;
 import wanzhi.gulu.community.service.QuestionService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,9 @@ public class ProfileController {
 
     @Autowired
     QuestionService questionService;
+
+    @Autowired
+    private NotificationService notificationServie;
 
     @GetMapping("/profile/{action}")
     public String profile(@PathVariable("action") String action,

@@ -1,22 +1,22 @@
 package wanzhi.gulu.community.enums;
 
-public enum NotificationEnum {
+public enum NotificationTypeEnum {
     REPLY_QUESTION(1,"回复了问题"),
     REPLY_COMMENT(2,"回复了评论")
     ;
-    private int status;
+    private int type;
     private String name;
 
-    public int getStatus() {
-        return status;
+    public int getType() {
+        return type;
     }
 
     public String getName() {
         return name;
     }
 
-    NotificationEnum(int status, String name) {
-        this.status = status;
+    NotificationTypeEnum(int type, String name) {
+        this.type = type;
         this.name = name;
     }
 }
