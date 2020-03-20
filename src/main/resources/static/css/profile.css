@@ -26,3 +26,7 @@ body{
 .question-edit{
     color:#999;
 }
+.badge-red{
+    color: white;
+    background-color: red;
+}

@@ -74,7 +74,9 @@
                 <div class="media" th:if="${section=='replies'}" th:each="notificationDTO:${notificationPageDTO.dataS}">
                     <span th:text="${notificationDTO.user.name}"></span>
                     <span th:text="${notificationDTO.typeName}"></span>
-                    <a href="#"th:href="@{'/question/'+${notificationDTO.outerid}}" th:text="${notificationDTO.outerTitle}"></a>
+                    <!--<a href="#"th:href="@{'/question/'+${notificationDTO.outerid}}" th:text="${notificationDTO.outerTitle}"></a>-->
+                    <a href="#"th:href="@{/read(type=${notificationDTO.type},id=${notificationDTO.id},outerid=${notificationDTO.outerid})}" th:text="${notificationDTO.outerTitle}"></a>
+                    <span class="badge badge-red" th:if="${notificationDTO.status==0}">NEW</span>
                 </div>
                 <nav th:if="${section=='replies'}">
                     <ul class="pagination">
