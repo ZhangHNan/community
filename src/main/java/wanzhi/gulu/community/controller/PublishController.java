@@ -1,5 +1,6 @@
 package wanzhi.gulu.community.controller;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -116,6 +117,16 @@ public class PublishController {
         }
         if (question.getTag()==null||question.getTag().equals("")){
             model.addAttribute("error","标签不能为空");
+            model.addAttribute("title",question.getTitle());
+            model.addAttribute("description",question.getDescription());
+            model.addAttribute("tag",question.getTag());
+            model.addAttribute("id",question.getId());
+            model.addAttribute("tags",TagCache.get());
+            return "publish";
+        }
+        String invalid = TagCache.filterInvalid(question.getTag());
+        if(StringUtils.isNotBlank(invalid)){
+            model.addAttribute("error","有非法标签请改正！");
             model.addAttribute("title",question.getTitle());
             model.addAttribute("description",question.getDescription());
             model.addAttribute("tag",question.getTag());
