@@ -43,7 +43,8 @@
                             <h4 class="media-heading" th:text="${questionDTO.title}">怎么学会java</h4>
                         </a>
                         <!--这里使用selectByExampleWithRowbounds作分页查询，但是返回的description是null-->
-                        [[${questionDTO.description}]]
+                        <!--[[${questionDTO.description}]]-->
+                        <span>作者：</span><span th:text="${questionDTO.user.name}"></span>
                         <br>
                         <span class="text-desc"> [[${questionDTO.commentCount}]] 个回复 | [[${questionDTO.viewCount}]] 次浏览 | <span
                                 th:text="${#dates.format(questionDTO.gmtCreate,'yyyy-MM-dd HH:mm')}"></span>

@@ -37,7 +37,7 @@
                     <li th:if="${session.user!=null}">
                         <a href="/publish">发布 </a>
                     </li>
-                    <li>
+                    <li th:if="${session.user!=null}">
                         <a href="/profile/replies">通知 <span class="badge" th:text="${session.unread}">4</span> </a>
                     </li>
                     <!--登录按钮-->

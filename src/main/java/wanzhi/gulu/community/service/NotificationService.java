@@ -33,7 +33,8 @@ public class NotificationService {
     public Integer findUnreadCountByReceiver(Long id) {
         NotificationExample example = new NotificationExample();
         example.createCriteria()
-                .andStatusEqualTo(NotificationStatusEnum.UNREAD.getStatus());
+                .andStatusEqualTo(NotificationStatusEnum.UNREAD.getStatus())
+                .andReceiverEqualTo(id);
         return notificationMapper.countByExample(example);
     }
 }
