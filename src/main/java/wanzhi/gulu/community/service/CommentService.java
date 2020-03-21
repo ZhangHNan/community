@@ -40,7 +40,8 @@ public class CommentService {
     @Autowired
     NotificationMapper notificationMapper;
 
-    @Transactional
+    //添加评论功能
+    @Transactional//增加事务
     public void insert(Comment comment) {
         if (comment.getParentId() == null || comment.getParentId() == 0) {
             throw new CustomizeException(CustomizeErrorCode.TARGET_PARAM_ERROR);
@@ -76,7 +77,7 @@ public class CommentService {
         }
     }
 
-    //传入被评论对象，以及评论人id，和评论类型即可
+    //创建通知：传入被评论对象，以及评论人id，和评论类型即可
     private void createNotify(Comment comment, Long receiver, NotificationTypeEnum notificationTypeEnum) {
         Notification notification = new Notification();
         notification.setGmtCreate(System.currentTimeMillis());
@@ -88,6 +89,7 @@ public class CommentService {
         notificationMapper.insert(notification);
     }
 
+    //查询评论功能
     public List<CommentDTO> listByTargetId(Long id, CommentTypeEnum type) {
         CommentExample example = new CommentExample();
         example.createCriteria()

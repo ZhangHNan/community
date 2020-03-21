@@ -14,6 +14,7 @@ public class UserService {
     @Autowired
     UserMapper userMapper;
 
+    //创建或更新用户：主要更新token
     public void createOrUpdate(User user){
         UserExample userExample = new UserExample();
         userExample.createCriteria()

@@ -12,6 +12,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+//登录拦截器 ：作登录状态检查，以及获取未读通知
 @Component
 public class LoginInterceptor implements HandlerInterceptor {
 
@@ -30,8 +31,11 @@ public class LoginInterceptor implements HandlerInterceptor {
         loginCheck.check(cookies, request);
         //获取未读通知数
         User user = (User)request.getSession().getAttribute("user");
-        Integer unread = notificationService.findUnreadCountByReceiver(user.getId());
-        request.getSession().setAttribute("unread",unread);
+        if(user!=null){
+            //如果登录才查询未读通知
+            Integer unread = notificationService.findUnreadCountByReceiver(user.getId());
+            request.getSession().setAttribute("unread",unread);
+        }
         return true;
     }
 }

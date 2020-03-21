@@ -15,7 +15,7 @@ public class MyWebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        //注册拦截器loginInterceptor处理所有请求，静态资源默认不拦截
+        //注册拦截器loginInterceptor处理所有请求，静态资源不拦截
         registry.addInterceptor(loginInterceptor).addPathPatterns("/**");
     }
 }

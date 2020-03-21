@@ -26,6 +26,7 @@ public class ProfileController {
     @Autowired
     private NotificationService notificationService;
 
+    //到我的问题|通知（二合一）页面
     @GetMapping("/profile/{action}")
     public String profile(@PathVariable("action") String action,
                           Model model,
@@ -34,7 +35,7 @@ public class ProfileController {
         //从session域中获取登录的user
         User user = (User)request.getSession().getAttribute("user");
         if (user == null){
-            //如果没有重定向到首页，注意：如果是“redirect:index”，它会跳转到同级的index。即/profile/index
+            //如果未登录重定向到首页，注意：如果是“redirect:index”，它会跳转到同级的index。即/profile/index
             return "redirect:/index";
         }
 

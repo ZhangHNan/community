@@ -25,6 +25,7 @@ public class NotificationController {
     @Autowired
     CommentMapper commentMapper;
 
+    //已读通知操作：改变通知状态，同时跳转到相应的question页面
     @GetMapping("/read")
     public String read(@RequestParam("id") Long id,
                        @RequestParam("type") Integer type,

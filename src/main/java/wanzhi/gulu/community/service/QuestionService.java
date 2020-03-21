@@ -50,16 +50,18 @@ public class QuestionService {
     private String questionButtonCount;//设置我的问题页每页展示页面按钮数。请设置为奇数，设置为偶数中间段还是奇数个，头和尾才是偶数个
 
 
-    //查询帖子并作分页
+    //首页查询帖子并作分页
     public PageDTO findPage(Integer currentPage) {
         //传入要跳转的页面、每页显示数据条数、每页显示指定到某页的按钮数即可自动构建pageDTO对象并返回
         return pageUtils.autoStructureQuestionPageDTO(currentPage, Integer.parseInt(indexRows), Integer.parseInt(indexButtonCount));
     }
 
+    //我的问题页分页查询帖子
     public PageDTO findPageByCreator(Integer currentPage, Long id) {
         return pageUtils.autoStructureQuestionPageDTO(currentPage, Integer.parseInt(questionRows), Integer.parseInt(questionButtonCount), id);
     }
 
+    //根据id查询QuestionDTO ：到问题详情页时
     public QuestionDTO findQuestionById(Long id) {
 //        QuestionDTO questionDTO = questionMapper.findById(id);
         Question question = questionMapper.selectByPrimaryKey(id);
@@ -75,7 +77,7 @@ public class QuestionService {
     }
 
 
-    //更新或创建帖子
+    //更新或创建帖子 ： 发布或编辑问题功能
     public void updateOrCreate(Question question) {
         if(question.getId()==null){
 //            questionMapper.create(question);
@@ -90,6 +92,7 @@ public class QuestionService {
         }
     }
 
+    //增加阅读数
     public void incView(Long id) {
 //        Question question = questionMapper.selectByPrimaryKey(id);
 //        Question updateQuestion = new Question();
@@ -104,6 +107,7 @@ public class QuestionService {
         questionExtMapper.incView(updateQuestion);
     }
 
+    //查询相关问题
     public List<QuestionDTO> selectRelated(QuestionDTO queryDTO) {
         if (StringUtils.isBlank(queryDTO.getTag())){
             return new ArrayList<>();

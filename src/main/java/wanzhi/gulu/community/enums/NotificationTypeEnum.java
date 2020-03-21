@@ -1,5 +1,6 @@
 package wanzhi.gulu.community.enums;
 
+//通知类型枚举
 public enum NotificationTypeEnum {
     REPLY_QUESTION(1,"回复了问题"),
     REPLY_COMMENT(2,"回复了评论")

@@ -8,7 +8,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+//规范标签：只有这里定义的标签可以正常提交
 public class TagCache {
+
     public static List<TagDTO> get() {
         List<TagDTO> tagDTOS = new ArrayList<>();
         TagDTO program = new TagDTO();
@@ -39,6 +41,7 @@ public class TagCache {
         return tagDTOS;
     }
 
+    //判断客户端输入的标签是不是有非规范的标签，返回有问题标签字段
     public static String filterInvalid(String tags) {
         String[] split = StringUtils.split(tags, ",");
         List<TagDTO> tagDTOS = get();

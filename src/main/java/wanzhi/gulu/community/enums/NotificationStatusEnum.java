@@ -1,5 +1,6 @@
 package wanzhi.gulu.community.enums;
 
+//通知状态枚举
 public enum NotificationStatusEnum {
     UNREAD(0),
     READ(1),

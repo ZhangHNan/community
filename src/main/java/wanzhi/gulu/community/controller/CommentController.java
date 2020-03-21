@@ -22,6 +22,13 @@ public class CommentController {
     @Autowired
     CommentService commentService;
 
+    /**
+     * 前后端分离API（Ajax）：前端携带Json数据请求（contentType:"application/json",data:JSON.stringify(),dataType:"json"），
+     * 后端返回json数据
+     * @param commentCreateDTO
+     * @param request
+     * @return
+     */
     @ResponseBody
     @PostMapping("/comment")
     public Object post(@RequestBody CommentCreateDTO commentCreateDTO,
@@ -51,7 +58,7 @@ public class CommentController {
         return CommentResultDTO.okOf();
     }
 
-    //二级评论API
+    //获取二级评论列表API
     @ResponseBody
     @GetMapping("/comment/{id}")
     public CommentResultDTO comments(@PathVariable("id")Long id){

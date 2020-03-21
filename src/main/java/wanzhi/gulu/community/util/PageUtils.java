@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 用于处理分页的组件
+ * 通用的处理分页的组件
  */
 @Component
 public class PageUtils {

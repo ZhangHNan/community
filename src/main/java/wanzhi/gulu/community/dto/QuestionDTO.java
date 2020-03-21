@@ -7,14 +7,14 @@ import wanzhi.gulu.community.model.User;
 @Data
 public class QuestionDTO {
     private Long id;
-    private String title;
-    private String description;
-    private Long gmtCreate;
-    private Long gmtModified;
-    private Long creator;
-    private Integer commentCount;
-    private Integer viewCount;
-    private Integer likeCount;
-    private String tag;
-    private User user;
+    private String title;       //问题标题
+    private String description; //问题详情
+    private Long gmtCreate;     //创建时间
+    private Long gmtModified;   //修改时间
+    private Long creator;       //创建人
+    private Integer commentCount; //问题的一级评论数
+    private Integer viewCount;    //浏览量
+    private Integer likeCount;    //点赞数
+    private String tag;         //标签
+    private User user;          //创建人详情
 }

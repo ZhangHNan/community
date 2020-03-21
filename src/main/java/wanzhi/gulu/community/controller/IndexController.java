@@ -26,6 +26,7 @@ public class IndexController {
     @Autowired
     QuestionService questionService;
 
+    //到首页
     @GetMapping(value = {"/", "/index"})
     public String index(@RequestParam(value = "currentPage",defaultValue = "1") Integer currentPage,
                         Model model) {
@@ -39,6 +40,7 @@ public class IndexController {
         return "index";
     }
 
+    //注销登录功能
     @GetMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response){
         request.getSession().removeAttribute("user");

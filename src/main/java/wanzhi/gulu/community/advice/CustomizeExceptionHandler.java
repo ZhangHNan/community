@@ -24,8 +24,7 @@ import java.io.PrintWriter;
 public class CustomizeExceptionHandler {
 
 
-    @ExceptionHandler(Exception.class)
-//表示要处理的异常类型
+    @ExceptionHandler(Exception.class)//表示要处理的异常类型
     ModelAndView handleControllerException(HttpServletRequest request,
                                            Throwable ex,//Exception extends Throwable
                                            Model model,
