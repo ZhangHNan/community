@@ -11,6 +11,11 @@
     <link rel="stylesheet" href="../static/css/bootstrap-theme.min.css" th:href="@{/css/bootstrap-theme.min.css}">
     <link rel="stylesheet" href="../static/css/question.css" th:href="@{/css/question.css}">
     <script src="../static/js/moment.min.js" th:src="@{/js/moment.min.js}"></script>
+    <!--显示markdown富文本内容要的css：Markdown to HTML-->
+    <link rel="stylesheet" href="../static/css/editormd.preview.min.css" th:href="@{/css/editormd.preview.min.css}">
+    <script src="../static/js/editormd.min.js" th:src="@{/js/editormd.min.js}"></script>
+    <script src="../static/js/lib/marked.min.js" th:src="@{/js/lib/marked.min.js}"></script>
+    <script src="../static/js/lib/prettify.min.js" th:src="@{/js/lib/prettify.min.js}"></script>
 </head>
 <body>
 <div th:insert="~{navigation :: nav}"></div>
@@ -29,7 +34,17 @@
                 </span>
                 <hr>
                 <!--内容部分-->
-                <div th:text="${questionDTO.description}">内容</div>
+                <!--<div th:text="${questionDTO.description}">内容</div>-->
+                <div id="question-view">
+                    <!-- Server-side output Markdown text -->
+                    <textarea style="display:none;" th:text="${questionDTO.description}">### 内容 !</textarea>
+                </div>
+                <script type="text/javascript">
+                    $(function() {
+                        editormd.markdownToHTML("question-view", {
+                        });
+                    });
+                </script>
 
                 <hr>
                 <div>
