@@ -1,5 +1,6 @@
 package wanzhi.gulu.community.controller;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,14 +30,19 @@ public class IndexController {
     //到首页
     @GetMapping(value = {"/", "/index"})
     public String index(@RequestParam(value = "currentPage",defaultValue = "1") Integer currentPage,
+                        @RequestParam(name="search",required = false) String search,
                         Model model) {
 
         //进入首页时，获取cookies中的token数据，根据token查询数据库中有无登录数据，已移至拦截器
 
         //获取页面帖子数据用于首页展示
-        PageDTO pageDTO = questionService.findPage(currentPage);
+        PageDTO pageDTO = questionService.findPage(currentPage,search);
         model.addAttribute("pageDTO",pageDTO);
-
+        if (StringUtils.isBlank(search)){
+            model.addAttribute("search",null);
+        }else{
+            model.addAttribute("search",search);
+        }
         return "index";
     }
 

@@ -51,14 +51,14 @@ public class QuestionService {
 
 
     //首页查询帖子并作分页
-    public PageDTO findPage(Integer currentPage) {
+    public PageDTO findPage(Integer currentPage, String search) {
         //传入要跳转的页面、每页显示数据条数、每页显示指定到某页的按钮数即可自动构建pageDTO对象并返回
-        return pageUtils.autoStructureQuestionPageDTO(currentPage, Integer.parseInt(indexRows), Integer.parseInt(indexButtonCount));
+        return pageUtils.autoStructureQuestionPageDTO(currentPage, Integer.parseInt(indexRows), Integer.parseInt(indexButtonCount),search);
     }
 
     //我的问题页分页查询帖子
     public PageDTO findPageByCreator(Integer currentPage, Long id) {
-        return pageUtils.autoStructureQuestionPageDTO(currentPage, Integer.parseInt(questionRows), Integer.parseInt(questionButtonCount), id);
+        return pageUtils.autoStructureQuestionPageDTOByCreator(currentPage, Integer.parseInt(questionRows), Integer.parseInt(questionButtonCount), id);
     }
 
     //根据id查询QuestionDTO ：到问题详情页时

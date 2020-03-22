@@ -1,5 +1,6 @@
 package wanzhi.gulu.community.util;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,15 +8,15 @@ import org.springframework.stereotype.Component;
 import wanzhi.gulu.community.dto.NotificationDTO;
 import wanzhi.gulu.community.dto.PageDTO;
 import wanzhi.gulu.community.dto.QuestionDTO;
+import wanzhi.gulu.community.dto.SearchDTO;
 import wanzhi.gulu.community.enums.NotificationTypeEnum;
-import wanzhi.gulu.community.mapper.CommentMapper;
-import wanzhi.gulu.community.mapper.NotificationMapper;
-import wanzhi.gulu.community.mapper.QuestionMapper;
-import wanzhi.gulu.community.mapper.UserMapper;
+import wanzhi.gulu.community.mapper.*;
 import wanzhi.gulu.community.model.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 通用的处理分页的组件
@@ -25,6 +26,9 @@ public class PageUtils {
 
     @Autowired
     QuestionMapper questionMapper;
+
+    @Autowired
+    QuestionExtMapper questionExtMapper;
 
     @Autowired
     UserMapper userMapper;
@@ -44,12 +48,63 @@ public class PageUtils {
     }
 
     //QuestionPageDTO的自动构造方法，传入需要跳转页面、每页展示数据条数、每页显示按钮数即可构造pageDTO并返回
-    public PageDTO autoStructureQuestionPageDTO(int currentPage, int rows, int buttonCount) {
-        return autoStructureQuestionPageDTO(currentPage, rows, buttonCount, null);
+    public PageDTO autoStructureQuestionPageDTO(int currentPage, int rows, int buttonCount,String search) {
+        PageDTO pageDTO;
+        if (StringUtils.isBlank(search)){
+            //没有搜索的时候
+            pageDTO = autoStructureQuestionPageDTOByCreator(currentPage, rows, buttonCount, null);
+        }else{
+            //搜索
+            pageDTO = autoStructureQuestionPageDTOBySearch(currentPage, rows, buttonCount, search);
+        }
+        return pageDTO;
+    }
+
+    private PageDTO autoStructureQuestionPageDTOBySearch(int currentPage, int rows, int buttonCount, String search) {
+        PageDTO pageDTO;
+        //查询总数TotalCount
+        String[] searchs = StringUtils.split(search, " ");
+        String regxpSearch = Arrays.stream(searchs).collect(Collectors.joining("|"));
+        Integer totalCount = selectQuestionDTOTotalCountBySearch(regxpSearch);
+        //构建分页模型
+        pageDTO = autoStructurePageModel(currentPage, rows, buttonCount, totalCount);
+        //补充分页数据
+        pageDTO = injectQuestionDTODataSBySearch(pageDTO, regxpSearch);
+        return pageDTO;
+    }
+
+    private Integer selectQuestionDTOTotalCountBySearch(String regxpSearch) {
+        //根据创建者来查询帖子总数
+        Integer totalCount = questionExtMapper.countBySearch(regxpSearch);
+        return totalCount;
+    }
+
+    private PageDTO injectQuestionDTODataSBySearch(PageDTO pageDTO, String regxpSearch) {
+        //分页查询帖子（需要传入开始索引和显示行数）
+        List<QuestionDTO> questionDTOs = new ArrayList<>();
+        SearchDTO searchDTO = new SearchDTO();
+        searchDTO.setRegxpSearch(regxpSearch);
+        searchDTO.setStart(pageDTO.getStart());
+        searchDTO.setRows(pageDTO.getRows());
+        List<Question> questions = questionExtMapper.selectBySearchPage(searchDTO);
+        for (Question question : questions) {
+            QuestionDTO questionDTO = new QuestionDTO();
+            BeanUtils.copyProperties(question, questionDTO);
+            questionDTOs.add(questionDTO);
+        }
+
+        for (QuestionDTO questionDTO : questionDTOs) {
+//            User user = userMapper.findById(questionDTO.getCreator());
+            User user = userMapper.selectByPrimaryKey(questionDTO.getCreator());
+            questionDTO.setUser(user);
+        }
+        //将查询出来的帖子赋给PageDTO
+        pageDTO.setDataS(questionDTOs);
+        return pageDTO;
     }
 
     //QuestionPageDTO的自动构造方法：分三步：查总数、键模型、查数据
-    public PageDTO autoStructureQuestionPageDTO(int currentPage, int rows, int buttonCount, Long id) {
+    public PageDTO autoStructureQuestionPageDTOByCreator(int currentPage, int rows, int buttonCount, Long id) {
         //查询总数TotalCount
         Integer totalCount = selectQuestionDTOTotalCount(id);
         //构建分页模型
