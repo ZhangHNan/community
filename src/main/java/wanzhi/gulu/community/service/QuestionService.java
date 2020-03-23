@@ -38,27 +38,27 @@ public class QuestionService {
     PageUtils pageUtils;
 
     @Value("${page.index.rows}")
-    private String indexRows;//设置首页每页展示数据行数
+    private Integer indexRows;//设置首页每页展示数据行数
 
     @Value("${page.index.buttonCount}")
-    private String indexButtonCount;//设置首页每页展示页面按钮数。请设置为奇数，设置为偶数中间段还是奇数个，头和尾才是偶数个
+    private Integer indexButtonCount;//设置首页每页展示页面按钮数。请设置为奇数，设置为偶数中间段还是奇数个，头和尾才是偶数个
 
     @Value("${page.question.rows}")
-    private String questionRows;//设置我的问题页每页展示数据行数
+    private Integer questionRows;//设置我的问题页每页展示数据行数
 
     @Value("${page.question.buttonCount}")
-    private String questionButtonCount;//设置我的问题页每页展示页面按钮数。请设置为奇数，设置为偶数中间段还是奇数个，头和尾才是偶数个
+    private Integer questionButtonCount;//设置我的问题页每页展示页面按钮数。请设置为奇数，设置为偶数中间段还是奇数个，头和尾才是偶数个
 
 
     //首页查询帖子并作分页
     public PageDTO findPage(Integer currentPage, String search) {
         //传入要跳转的页面、每页显示数据条数、每页显示指定到某页的按钮数即可自动构建pageDTO对象并返回
-        return pageUtils.autoStructureQuestionPageDTO(currentPage, Integer.parseInt(indexRows), Integer.parseInt(indexButtonCount),search);
+        return pageUtils.autoStructureQuestionPageDTO(currentPage, indexRows, indexButtonCount,search);
     }
 
     //我的问题页分页查询帖子
     public PageDTO findPageByCreator(Integer currentPage, Long id) {
-        return pageUtils.autoStructureQuestionPageDTOByCreator(currentPage, Integer.parseInt(questionRows), Integer.parseInt(questionButtonCount), id);
+        return pageUtils.autoStructureQuestionPageDTOByCreator(currentPage, questionRows, questionButtonCount, id);
     }
 
     //根据id查询QuestionDTO ：到问题详情页时

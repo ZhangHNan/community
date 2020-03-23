@@ -19,14 +19,14 @@ public class NotificationService {
     private PageUtils pageUtils;
 
     @Value("${page.notification.rows}")
-    private String notificationRows;//设置通知页每页展示数据行数
+    private Integer notificationRows;//设置通知页每页展示数据行数
 
     @Value("${page.notification.buttonCount}")
-    private String notificationButtonCount;//设置通知页每页展示页面按钮数。请设置为奇数，设置为偶数中间段还是奇数个，头和尾才是偶数个
+    private Integer notificationButtonCount;//设置通知页每页展示页面按钮数。请设置为奇数，设置为偶数中间段还是奇数个，头和尾才是偶数个
 
     //到通知页的分页查询
     public PageDTO findPage(Integer currentPage,Long id){
-        return pageUtils.autoStructureNotificationPageDTO(currentPage, Integer.parseInt(notificationRows), Integer.parseInt(notificationButtonCount),id);
+        return pageUtils.autoStructureNotificationPageDTO(currentPage, notificationRows,notificationButtonCount,id);
     }
 
     //通过接收人查询未读通知数

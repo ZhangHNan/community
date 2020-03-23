@@ -2,20 +2,16 @@ package wanzhi.gulu.community.provider;
 
 import cn.ucloud.ufile.UfileClient;
 import cn.ucloud.ufile.api.object.ObjectConfig;
-import cn.ucloud.ufile.auth.BucketAuthorization;
 import cn.ucloud.ufile.auth.ObjectAuthorization;
-import cn.ucloud.ufile.auth.UfileBucketLocalAuthorization;
 import cn.ucloud.ufile.auth.UfileObjectLocalAuthorization;
 import cn.ucloud.ufile.bean.PutObjectResultBean;
 import cn.ucloud.ufile.exception.UfileClientException;
 import cn.ucloud.ufile.exception.UfileServerException;
-import cn.ucloud.ufile.http.OnProgressListener;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import wanzhi.gulu.community.exception.CustomizeErrorCode;
 import wanzhi.gulu.community.exception.CustomizeException;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.UUID;
 
@@ -27,7 +23,17 @@ public class UcloudProvider {
     @Value("${ucloud.ufile.private-key}")
     private String privateKey;//设置Ucloud私匙
 
-    private String bucketName="gulu";
+    @Value("${ucloud.ufile.bucketName}")
+    private String bucketName;
+
+    @Value("${ucloud.ufile.region}")
+    private String region;
+
+    @Value("${ucloud.ufile.suffix}")
+    private String suffix;
+
+    @Value("${ucloud.ufile.expiresDuration}")
+    private Integer expiresDuration;
 
     public String upload(InputStream inputStream,String mimeType,String fileName){
         String generateFileName;
@@ -42,7 +48,7 @@ public class UcloudProvider {
             ObjectAuthorization OBJECT_AUTHORIZER = new UfileObjectLocalAuthorization(
                     publicKey, privateKey);
             // 对象操作需要ObjectConfig来配置您的地区和域名后缀
-            ObjectConfig config = new ObjectConfig("cn-gd", "ufileos.com");
+            ObjectConfig config = new ObjectConfig(region, suffix);
             PutObjectResultBean response = UfileClient.object(OBJECT_AUTHORIZER, config)
                     .putObject(inputStream, mimeType)
                     .nameAs(generateFileName)
@@ -53,7 +59,7 @@ public class UcloudProvider {
                     .execute();
             if(response !=null && response.getRetCode() ==0){
                 String url = UfileClient.object(OBJECT_AUTHORIZER,config)
-                        .getDownloadUrlFromPrivateBucket(generateFileName,bucketName,24*60*60*360)
+                        .getDownloadUrlFromPrivateBucket(generateFileName,bucketName,expiresDuration)
                         .createUrl();
                 return url;
             }else{
