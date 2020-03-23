@@ -15,6 +15,7 @@ import wanzhi.gulu.community.exception.CustomizeException;
 import java.io.InputStream;
 import java.util.UUID;
 
+//UCloud图片上传相关业务
 @Service
 public class UcloudProvider {
     @Value("${ucloud.ufile.public-key}")
@@ -35,11 +36,12 @@ public class UcloudProvider {
     @Value("${ucloud.ufile.expiresDuration}")
     private Integer expiresDuration;
 
+    //将图片上传到UCloud存储，并通过response生成访问地址并返回给前端
     public String upload(InputStream inputStream,String mimeType,String fileName){
         String generateFileName;
-        String[] fileSplit = fileName.split("\\.");
+        String[] fileSplit = fileName.split("\\.");//注意这里要用\\转义
         if (fileSplit.length>1){
-            generateFileName = UUID.randomUUID().toString() + "." + fileSplit[fileSplit.length - 1];
+            generateFileName = UUID.randomUUID().toString() + "." + fileSplit[fileSplit.length - 1];//UUID.后缀
         }else {
             return null;
         }
@@ -58,6 +60,7 @@ public class UcloudProvider {
                     })
                     .execute();
             if(response !=null && response.getRetCode() ==0){
+                //获取访问图片的url
                 String url = UfileClient.object(OBJECT_AUTHORIZER,config)
                         .getDownloadUrlFromPrivateBucket(generateFileName,bucketName,expiresDuration)
                         .createUrl();

@@ -18,10 +18,12 @@ public class FileController {
     @Autowired
     UcloudProvider ucloudProvider;
 
+    //图片从前端上传到服务器
     @ResponseBody
     @PostMapping("/file/upload")
     public FileUploadDTO fileUpload(HttpServletRequest request){
         MultipartHttpServletRequest multipartRequest =(MultipartHttpServletRequest) request;
+        //使用multipartRequest接收图片
         MultipartFile file = multipartRequest.getFile("editormd-image-file");
         try {
             String url = ucloudProvider.upload(file.getInputStream(), file.getContentType(), file.getOriginalFilename());
@@ -31,9 +33,10 @@ public class FileController {
             fileUploadDTO.setUrl(url);
             fileUploadDTO.setMassage("上传成功！");
             return fileUploadDTO;
+            //当前端显示图片地址的时候，图片就已经上传到UCloud了
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return  null;
+        return null;
     }
 }

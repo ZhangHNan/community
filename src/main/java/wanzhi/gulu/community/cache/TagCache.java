@@ -43,11 +43,15 @@ public class TagCache {
 
     //判断客户端输入的标签是不是有非规范的标签，返回有问题标签字段
     public static String filterInvalid(String tags) {
+        //将前端传入的标签字符串以，分割分裂成数组
         String[] split = StringUtils.split(tags, ",");
+        //获取合法标签对象
         List<TagDTO> tagDTOS = get();
-
+        //获取所有标签转为List集合
         List<String> tagList = tagDTOS.stream().flatMap(tag -> tag.getTags().stream()).collect(Collectors.toList());
+        //如果传入标签是空或者合法标签库不存在该标签，加入返回的字符串后面
         String invalid = Arrays.stream(split).filter(t -> StringUtils.isBlank(t) || !tagList.contains(t)).collect(Collectors.joining(","));
+        //如果前端传入的标签合法，应该返回空字符串
         return invalid;
     }
 
