@@ -3,13 +3,14 @@ package wanzhi.gulu.community.provider;
 import com.alibaba.fastjson.JSON;
 import okhttp3.*;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import wanzhi.gulu.community.dto.AccessTokenDTO;
 import wanzhi.gulu.community.dto.GithubUser;
 
 import java.io.IOException;
 
 //用于模拟浏览器发送请求（使用okhttp）（调用github第三登录需要的API）
-@Component
+@Service
 public class GithubProvider {
 
     //以post方式发送请求（调用access_token接口）并接收数据

@@ -13,6 +13,7 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode {
     TYPE_PARAM_ERROR(4005,"评论类型错误，或不存在！"),
     COMMENT_NOT_FOUND(4004,"评论不存在！"),
     CONTENT_IS_EMPTY(4007,"评论内容不能为空！"),
+    FILE_UPLOAD_FAIL(7005,"图片上传失败！")
     ;//这里定义的枚举是为了给下面构造函数中传入message准备的
 
     private String message;
