@@ -1,16 +1,12 @@
 package wanzhi.gulu.community;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Java8新特性 lambda表达式 ：快速实现接口
  * 使用lambda表达式返回的是 实现这个接口并执行之后的返回值，即方法体中return的，方法体中没有return就没有返回值
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
+//不使用Springboot的注解虽然不能用spring ioc容器，但是运行更快
 public class LambdaTest {
 
     interface Printer{

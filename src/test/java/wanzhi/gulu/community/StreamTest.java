@@ -1,9 +1,6 @@
 package wanzhi.gulu.community;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,17 +15,7 @@ import java.util.stream.Stream;
 /**
  * Java8新特性 Stream API ：将数组、集合、文件的io流可以转换为流的操作源，然后可以使用Stream API 作过滤、转换等操作。
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
 public class StreamTest {
-
-    interface Printer{
-        void printer(String val);
-    }
-
-    public void pringSomething(String something,Printer printer){
-        printer.printer(something);
-    }
 
     @Test//使用Stream API实例
     public void streamExample () {

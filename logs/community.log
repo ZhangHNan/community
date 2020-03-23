@@ -100,3 +100,9 @@
 2020-03-23 20:45:48.314  INFO 12656 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
 2020-03-23 20:45:49.376  INFO 12656 --- [main] wanzhi.gulu.community.StreamTest         : Started StreamTest in 8.845 seconds (JVM running for 10.996)
 2020-03-23 20:45:49.835  INFO 12656 --- [Thread-3] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-03-23 21:08:32.095  INFO 8608 --- [main] wanzhi.gulu.community.Stream_FilterTest  : Starting Stream_FilterTest on DESKTOP-L1P4GPM with PID 8608 (started by HY in E:\IDEAJavaProjects\mawen_mybatis_generator\community)
+2020-03-23 21:08:32.099  INFO 8608 --- [main] wanzhi.gulu.community.Stream_FilterTest  : No active profile set, falling back to default profiles: default
+2020-03-23 21:08:39.050  INFO 8608 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-03-23 21:08:39.302  INFO 8608 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2020-03-23 21:08:40.398  INFO 8608 --- [main] wanzhi.gulu.community.Stream_FilterTest  : Started Stream_FilterTest in 9.462 seconds (JVM running for 11.917)
+2020-03-23 21:08:40.881  INFO 8608 --- [Thread-3] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
